@@ -1,0 +1,40 @@
+:root {
+  --header-height: 94.02px;
+  --ctt-width: 1248px;
+  --ctt-padding: 32px;
+}
+
+.app_layout {
+  position: relative;
+
+  &__main {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    border-bottom: 1px solid #f2f2f2;
+    background: #fff;
+    // height: var(--header-height);
+  }
+
+  &__ctt {
+    padding: 0 var(--ctt-padding);
+    padding-top: var(--header-height);
+    max-width: var(--ctt-width);
+    margin: 0 auto;
+    flex: 1;
+    width: 100%;
+  }
+
+  &__footer {
+    border-top: 1px solid #f2f2f2;
+    margin: 0 auto;
+    width: 100%;
+  }
+}

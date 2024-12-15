@@ -1,0 +1,49 @@
+.app_open_wagers {
+  max-width: 302px;
+  width: 100%;
+
+  &__title {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 125%;
+    letter-spacing: -0.01em;
+    color: #282828;
+    text-align: center;
+  }
+
+  &__connect {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 129%;
+    letter-spacing: -0.01em;
+    text-align: center;
+    color: var(--grey-cheq);
+    max-width: 218px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &__create__position {
+    background: #f5f5f5;
+    border: 1px solid #f4f6f8;
+    border-radius: 10px;
+    padding: 10px 17px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 125%;
+    letter-spacing: -0.01em;
+    color: #282828;
+    text-align: center;
+    width: 100%;
+  }
+
+  &__learn {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 133%;
+    letter-spacing: -0.01em;
+    text-align: center;
+    color: var(--grey-cheq);
+  }
+}

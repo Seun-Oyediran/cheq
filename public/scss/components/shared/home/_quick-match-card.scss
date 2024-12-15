@@ -1,0 +1,85 @@
+.app_quick_match_card {
+  padding: 1.5rem 0;
+  border: 1px solid #efefef;
+  border-radius: 20px;
+
+  &__name {
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 133%;
+    letter-spacing: -0.01em;
+    text-align: center;
+    color: #282828;
+    text-transform: capitalize;
+  }
+
+  &__address {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 133%;
+    letter-spacing: -0.01em;
+    color: var(--grey-cheq);
+    text-align: center;
+  }
+
+  &__amount {
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: -0.01em;
+    text-align: center;
+    color: #282828;
+  }
+
+  &__action {
+    border-radius: 36px;
+    padding: 4px 8px;
+    background: #fef0de;
+    width: 97px;
+
+    &__text {
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 133%;
+      letter-spacing: -0.01em;
+      color: #ff8a00;
+      text-align: center;
+      text-transform: capitalize;
+    }
+  }
+
+  &__action.accept {
+    background: #282828;
+
+    .app_quick_match_card__action__text {
+      color: #ececec;
+    }
+  }
+
+  &__details {
+    border-top: 1px solid #ededed;
+    padding: 0.625rem;
+    padding-bottom: 0;
+
+    &__text {
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 167%;
+      letter-spacing: -0.01em;
+      color: #afb3b8;
+      text-align: center;
+
+      &__val {
+        color: #282828;
+      }
+    }
+  }
+
+  &__details.bottom {
+    padding-bottom: 0.625rem;
+  }
+}
+
+.app_quick_match_card.anonymous {
+  background-color: #f8f8f8;
+}

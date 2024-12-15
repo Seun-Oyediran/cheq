@@ -1,0 +1,45 @@
+.app_footer {
+  max-width: var(--ctt-width); //Go to /public/scss/components/shared/layout/_layout to adjust
+  margin: 0 auto;
+  padding: 20px var(--ctt-padding);
+  padding-bottom: 72px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+
+  &__left {
+    &__details {
+      max-width: 492px;
+      font-weight: 600;
+      font-size: 11px;
+      line-height: 127%;
+      letter-spacing: -0.01em;
+      color: #bdc1c6;
+    }
+  }
+
+  &__social {
+    &__text {
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 100%;
+      letter-spacing: -0.01em;
+      color: #bdc1c6;
+    }
+  }
+
+  &__item {
+    &__text {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 136%;
+      letter-spacing: -0.01em;
+      color: var(--grey-cheq);
+
+      &__bold {
+        font-weight: 700;
+        color: #282828;
+      }
+    }
+  }
+}
