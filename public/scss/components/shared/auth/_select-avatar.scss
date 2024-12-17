@@ -1,0 +1,25 @@
+.app_select_avatar {
+  &__icons {
+    height: 75px;
+  }
+
+  &__info {
+    &__name {
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 120%;
+      letter-spacing: -0.01em;
+      color: #282828;
+      text-align: center;
+    }
+
+    &__address {
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 150%;
+      letter-spacing: -0.01em;
+      color: var(--grey-cheq);
+      text-align: center;
+    }
+  }
+}

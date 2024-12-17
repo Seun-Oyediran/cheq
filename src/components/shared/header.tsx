@@ -1,9 +1,26 @@
+'use client';
 import React from 'react';
-import { Logo, LogoText, Search } from './svgs/icons';
 import Link from 'next/link';
+import { Popover } from 'react-tiny-popover';
+import { Logo, LogoText, Search } from './svgs/icons';
 import routes from '@/lib/routes';
+import { AuthWrapper, CreateAccount, Login, SelectAvatar, Welcome } from './auth';
+import { RenderIf } from './render-if';
+import { useAppContext } from '@/state/context';
+import { updateAuthModal } from '@/state/reducer';
 
 export function Header() {
+  const { state, dispatch } = useAppContext();
+
+  const showPopover = () => {
+    dispatch(
+      updateAuthModal({
+        show: true,
+        variant: 'login',
+      })
+    );
+  };
+
   return (
     <div className="app_header">
       <div className="flex items-center justify-between">
@@ -51,12 +68,49 @@ export function Header() {
         </div>
 
         <div className="app_header__auth flex items-center justify-end flex-1">
-          <button className="app_header__auth__btn" type="button">
+          <button className="app_header__auth__btn" type="button" onClick={showPopover}>
             Log In
           </button>
-          <button className="app_header__auth__btn app_header__auth__btn__signup" type="button">
-            Sign Up
-          </button>
+          <Popover
+            isOpen={state.authModal.show}
+            positions={['bottom']}
+            align="end"
+            padding={24}
+            onClickOutside={() => {
+              dispatch(
+                updateAuthModal({
+                  show: false,
+                })
+              );
+            }}
+            content={
+              <AuthWrapper>
+                <RenderIf condition={state.authModal.variant === 'welcome'}>
+                  <Welcome />
+                </RenderIf>
+
+                <RenderIf condition={state.authModal.variant === 'selectAvatar'}>
+                  <SelectAvatar />
+                </RenderIf>
+
+                <RenderIf condition={state.authModal.variant === 'login'}>
+                  <Login />
+                </RenderIf>
+
+                <RenderIf condition={state.authModal.variant === 'createAccount'}>
+                  <CreateAccount />
+                </RenderIf>
+              </AuthWrapper>
+            }
+          >
+            <button
+              className="app_header__auth__btn app_header__auth__btn__signup"
+              type="button"
+              onClick={showPopover}
+            >
+              Sign Up
+            </button>
+          </Popover>
         </div>
       </div>
     </div>

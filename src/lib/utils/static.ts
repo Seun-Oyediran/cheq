@@ -60,6 +60,46 @@ export const aviVariants = {
     fill: '#e4e4e4',
     bg: '#f5f5f5',
   },
+
+  black: {
+    fill: '#878787',
+    bg: '#000',
+  },
 };
 
 export type IAviVariants = keyof typeof aviVariants;
+
+export const aviVariantsArray: IAviVariants[] = [
+  'aquafresh',
+  'black',
+  'lightgray',
+  'mantis',
+  'platinum',
+  'sapphire',
+  'tangerine',
+  'white',
+];
+
+export const authModalVariants = {
+  login: {
+    height: '533px',
+  },
+  createAccount: {
+    height: '370px',
+  },
+  selectAvatar: {
+    height: '510px',
+  },
+
+  welcome: {
+    height: '424px',
+  },
+};
+
+export type IAuthModalVariants = keyof typeof authModalVariants;
+
+export const spring = {
+  type: 'spring',
+  damping: 20,
+  stiffness: 150,
+};
