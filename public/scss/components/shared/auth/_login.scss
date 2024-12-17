@@ -1,0 +1,126 @@
+.app_login {
+  &__top {
+    &__title {
+      &__text {
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 100%;
+        letter-spacing: -0.01em;
+        color: #282828;
+        text-align: center;
+      }
+
+      &__info {
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 143%;
+        letter-spacing: -0.01em;
+        text-align: center;
+        color: var(--grey-cheq);
+      }
+    }
+
+    &__email {
+      border: 1px solid #f8f8f8;
+      border-radius: 10px;
+      background: #f4f6f8;
+      padding-right: 7px;
+
+      &__input {
+        background-color: transparent;
+        height: 44px;
+        padding: 12px;
+
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 143%;
+        letter-spacing: -0.01em;
+        color: var(--grey-cheq);
+      }
+
+      &__btn {
+        padding: 5px 10px;
+        border-radius: 6px;
+        background: var(--stroke-plain-mirror);
+
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 143%;
+        letter-spacing: -0.01em;
+        color: var(--grey-cheq);
+      }
+    }
+
+    &__divider {
+      position: relative;
+
+      &__line {
+        width: 100%;
+        height: 1px;
+        background-color: #f4f4f4;
+      }
+
+      &__text {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        transform: translateY(-50%);
+        text-align: center;
+        z-index: 1;
+
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 107%;
+        letter-spacing: -0.01em;
+        text-align: center;
+        color: #afb3b8;
+      }
+    }
+  }
+
+  &__wallet {
+    border: 1px solid #f8f8f8;
+    border-radius: 10px;
+    padding: 10px;
+
+    &__icon {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+    }
+
+    &__name {
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 143%;
+      letter-spacing: -0.01em;
+      text-align: center;
+      color: #282828;
+    }
+
+    &__recent {
+      border-radius: 4px;
+      padding: 3px 8px;
+      background: #f5f5f5;
+
+      &__text {
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 117%;
+        letter-spacing: -0.01em;
+        text-align: center;
+        color: #afb3b8;
+      }
+    }
+
+    &__installed {
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 117%;
+      letter-spacing: -0.01em;
+      text-align: center;
+      color: #afb3b8;
+    }
+  }
+}

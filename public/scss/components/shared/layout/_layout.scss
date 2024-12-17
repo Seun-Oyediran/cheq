@@ -20,21 +20,23 @@
     right: 0;
     border-bottom: 1px solid #f2f2f2;
     background: #fff;
+    z-index: 99;
     // height: var(--header-height);
   }
 
   &__ctt {
-    padding: 0 var(--ctt-padding);
     padding-top: var(--header-height);
-    max-width: var(--ctt-width);
-    margin: 0 auto;
     flex: 1;
     width: 100%;
   }
 
   &__footer {
-    border-top: 1px solid #f2f2f2;
     margin: 0 auto;
     width: 100%;
   }
+}
+
+.container {
+  max-width: var(--ctt-width);
+  margin: 0 auto;
 }

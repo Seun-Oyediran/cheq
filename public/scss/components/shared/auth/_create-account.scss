@@ -1,0 +1,39 @@
+.app_create_account {
+  &__input {
+    &__label {
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 143%;
+      letter-spacing: -0.01em;
+      color: #282828;
+    }
+
+    &__info {
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 133%;
+      letter-spacing: -0.01em;
+      color: var(--grey-cheq);
+    }
+  }
+
+  &__bottom {
+    &__terms {
+      &__box {
+        width: 24px;
+        height: 24px;
+        border: 1px solid #dcdcdc;
+        border-radius: 5px;
+      }
+
+      &__text {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 114%;
+        letter-spacing: -0.01em;
+        color: #505050;
+        flex: 1;
+      }
+    }
+  }
+}

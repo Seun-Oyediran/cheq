@@ -1,6 +1,7 @@
 import React, { type ReactNode } from 'react';
 import { Header } from '../header';
 import { Footer } from '../footer';
+import { ModalBackdrop } from '../modal-backdrop';
 
 interface IProps {
   children: ReactNode;
@@ -20,6 +21,7 @@ export default function AppLayout(props: IProps) {
           <Footer />
         </div>
       </div>
+      <ModalBackdrop />
     </main>
   );
 }

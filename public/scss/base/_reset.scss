@@ -140,3 +140,9 @@ select {
   transition-delay: 0.15s;
 }
 // scrollbar reset ends
+
+#react-tiny-popover-container {
+  z-index: 9999;
+  max-width: 430px;
+  width: 100%;
+}
