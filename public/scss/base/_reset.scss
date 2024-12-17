@@ -141,7 +141,8 @@ select {
 }
 // scrollbar reset ends
 
-#react-tiny-popover-container {
+#react-tiny-popover-container,
+.react-tiny-popover-container {
   z-index: 9999;
   max-width: 430px;
   width: 100%;
