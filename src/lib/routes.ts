@@ -3,10 +3,8 @@ const routes = {
     path: '/',
   },
 
-  dashboard: {
-    entry: {
-      path: '/dashboard',
-    },
+  newPosition: {
+    path: '/new-position',
   },
 };
 

@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import '../../public/scss/main.scss';
 import { Nunito } from 'next/font/google';
-import { AppLayout } from '@/components/shared/layout';
 import Provider from '@/state/provider';
+import { Layout } from '@/components/shared/layout';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -26,7 +26,7 @@ export default function RootLayout({
     <html lang="en" className={`${nunito.variable}`}>
       <Provider>
         <body>
-          <AppLayout>{children}</AppLayout>
+          <Layout>{children}</Layout>
         </body>
       </Provider>
     </html>
