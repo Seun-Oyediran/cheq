@@ -1,6 +1,6 @@
 :root {
-  --header-height: 94.02px;
-  --ctt-width: 1248px;
+  --header-height: 95px;
+  --ctt-width: 1300px;
   --ctt-padding: 32px;
 }
 
@@ -11,6 +11,8 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    padding-top: var(--header-height);
+    height: 100%;
   }
 
   &__header {
@@ -25,7 +27,7 @@
   }
 
   &__ctt {
-    padding-top: var(--header-height);
+    // padding-top: var(--header-height);
     flex: 1;
     width: 100%;
   }
@@ -38,5 +40,7 @@
 
 .container {
   max-width: var(--ctt-width);
+  width: 100%;
   margin: 0 auto;
+  padding: 0 var(--ctt-padding);
 }

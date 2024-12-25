@@ -2,12 +2,13 @@
 import React from 'react';
 import Link from 'next/link';
 import { Popover } from 'react-tiny-popover';
-import { Logo, LogoText, Search } from './svgs/icons';
+import { Logo, LogoText } from './svgs/icons';
 import routes from '@/lib/routes';
 import { AuthWrapper, CreateAccount, Login, SelectAvatar, Welcome } from './auth';
 import { RenderIf } from './render-if';
 import { useAppContext } from '@/state/context';
 import { updateAuthModal } from '@/state/reducer';
+import { HeaderSearch } from './header-search';
 
 export function Header() {
   const { state, dispatch } = useAppContext();
@@ -53,19 +54,7 @@ export function Header() {
           </div>
         </div>
 
-        <div className="app_header__middle flex-1">
-          <div className="app_header__middle__search flex items-center gap-2">
-            <Search />
-            <input
-              type="text"
-              className="app_header__middle__search__input"
-              placeholder="Search Markets"
-            />
-            <div className="app_header__middle__search__icon">
-              <p className="app_header__middle__search__icon__text">/</p>
-            </div>
-          </div>
-        </div>
+        <HeaderSearch />
 
         <div className="app_header__auth flex items-center justify-end flex-1">
           <button className="app_header__auth__btn" type="button" onClick={showPopover}>
@@ -76,6 +65,7 @@ export function Header() {
             positions={['bottom']}
             align="end"
             padding={24}
+            containerClassName="app_auth_popover"
             onClickOutside={() => {
               dispatch(
                 updateAuthModal({

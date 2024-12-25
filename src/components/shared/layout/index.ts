@@ -1,1 +1,3 @@
-export { default as AppLayout } from './app-layout';
+// export { default as HomeLayout } from './app-layout';
+export { HomeLayout } from './home-layout';
+export { Layout } from './layout';

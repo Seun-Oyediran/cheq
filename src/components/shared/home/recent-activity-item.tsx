@@ -64,7 +64,7 @@ export function RecentActivityItem(props: IProps) {
           layout
           initial={{ opacity: 0, y: 50, scale: 0.3 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: -50, scale: 1 }}
+          exit={{ opacity: 0, y: -50, scale: 1, cursor: 'none' }}
           transition={spring}
           className="app_recent_activity_item flex justify-between items-center gap-4"
         >

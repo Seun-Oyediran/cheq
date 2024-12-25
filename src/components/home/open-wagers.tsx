@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Info } from '../shared/svgs/icons';
+import routes from '@/lib/routes';
 
 export function OpenWagers() {
   return (
@@ -12,7 +13,7 @@ export function OpenWagers() {
         </p>
       </div>
       <div className="flex flex-col gap-4">
-        <Link href="#">
+        <Link href={routes.newPosition.path}>
           <button className="app_open_wagers__create__position">Create New Position</button>
         </Link>
         <div className="flex items-center gap-1 justify-center">

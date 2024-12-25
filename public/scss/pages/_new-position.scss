@@ -1,0 +1,12 @@
+.app_new_position {
+  overflow: hidden;
+  &__flex {
+    display: flex;
+    gap: 5rem;
+  }
+
+  &__right {
+    flex: 1;
+    // background-color: red;
+  }
+}

@@ -1,0 +1,60 @@
+.app_create_position {
+  max-width: 380px;
+  width: 100%;
+  // background-color: red;
+  padding-bottom: 2rem;
+  border: 1px solid #f2f2f2;
+  // background: #f4f6f8;
+
+  &__header {
+    padding: 10px 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #f6f6f6;
+
+    &__name {
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 125%;
+      letter-spacing: -0.01em;
+      color: #282828;
+    }
+
+    &__balance {
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 125%;
+      letter-spacing: -0.01em;
+      color: #282828;
+    }
+  }
+
+  &__footer {
+    padding: 0 2rem;
+
+    &__ctt {
+      &__text {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 143%;
+        letter-spacing: -0.01em;
+        color: #282828;
+      }
+
+      &__divider {
+        height: 1px;
+        background-image: linear-gradient(90deg, #ddd, #ddd 50%, transparent 50%, transparent 100%);
+        background-size: 10px 1px;
+        border: none;
+      }
+    }
+
+    &__btn {
+      background-color: #000;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 125%;
+      letter-spacing: -0.01em;
+      color: #fff;
+    }
+  }
+}

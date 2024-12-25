@@ -141,9 +141,14 @@ select {
 }
 // scrollbar reset ends
 
-#react-tiny-popover-container,
-.react-tiny-popover-container {
+.app_auth_popover {
   z-index: 9999;
-  max-width: 380px;
+  max-width: 350px;
+  width: 100%;
+}
+
+.app_search_popover {
+  z-index: 999;
+  max-width: 313px;
   width: 100%;
 }
