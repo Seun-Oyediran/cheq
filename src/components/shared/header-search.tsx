@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowPrice, Base, Search } from './svgs/icons';
-import { TokenIcon } from '../ui';
-import home from '@/lib/assets/home';
+import { ArrowPrice, Search } from './svgs/icons';
+import { TokenInfo } from '../ui';
 import useOutsideClick from '@/hooks/use-outside-click';
+import { RenderIf } from './render-if';
 
 interface IPopoverContent {
   isOpen: boolean;
@@ -22,21 +22,7 @@ function PopoverContent(props: IPopoverContent) {
             .map((_, index) => (
               <button key={index} type="button" className="w-full app_header_search_popover__btn">
                 <div className="app_header_search_popover__item flex justify-between">
-                  <div className="flex gap-2">
-                    <div className="app_header_search_popover__item__icon">
-                      <TokenIcon src={home.degenLayer} size={32} />
-                      <div className="app_header_search_popover__item__icon__base">
-                        <Base />
-                      </div>
-                    </div>
-                    <div>
-                      <p className="app_header_search_popover__item__name">DEGENLAYER</p>
-                      <p className="app_header_search_popover__item__address flex gap-1 items-end">
-                        <span>DEGEN</span>
-                        0x0293...0293
-                      </p>
-                    </div>
-                  </div>
+                  <TokenInfo />
 
                   <div className="">
                     <p className="app_header_search_popover__item__price">0.0293</p>
@@ -91,7 +77,13 @@ export function HeaderSearch() {
   }, [searchModal]);
 
   return (
-    <div className={`app_header__middle flex-1 ${searchModal ? 'open' : ''}`} ref={ref}>
+    <div
+      className={`app_header__middle flex-1 ${searchModal ? 'open' : ''}`}
+      ref={ref}
+      onClick={() => {
+        setSearchModal(true);
+      }}
+    >
       <div className="app_header__middle__search flex items-center gap-2">
         <Search />
         <input
@@ -99,13 +91,13 @@ export function HeaderSearch() {
           type="text"
           className="app_header__middle__search__input"
           placeholder="Search Markets"
-          onFocus={() => {
-            // setSearchModal(true);
-          }}
+          // onFocus={() => {}}
         />
-        <div className="app_header__middle__search__icon">
-          <p className="app_header__middle__search__icon__text">/</p>
-        </div>
+        <RenderIf condition={!searchModal}>
+          <div className="app_header__middle__search__icon">
+            <p className="app_header__middle__search__icon__text">/</p>
+          </div>
+        </RenderIf>
       </div>
       <PopoverContent isOpen={searchModal} />
     </div>

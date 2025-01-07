@@ -46,4 +46,23 @@
     text-align: center;
     color: var(--grey-cheq);
   }
+
+  &__popover {
+    max-width: 277px;
+    width: 100%;
+    border-radius: 6px;
+    box-shadow: 0 0 0 1px rgba(230, 230, 230, 0.25), 0 4px 7px 0 rgba(219, 219, 219, 0.25);
+    background: #fff;
+    padding: 0.75rem;
+
+    &__text {
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 120%;
+      letter-spacing: -0.01em;
+      color: #282828;
+      max-width: 220px;
+      width: 100%;
+    }
+  }
 }

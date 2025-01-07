@@ -1,0 +1,51 @@
+.app_create_position_field {
+  &__label {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 143%;
+    letter-spacing: -0.01em;
+    color: #282828;
+  }
+
+  &__relative {
+    position: relative;
+  }
+
+  &__input {
+    border: 1px solid #ebebeb;
+    border-radius: 10px;
+    height: 40px;
+    padding: 0 10px;
+
+    &__text {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 143%;
+      letter-spacing: -0.01em;
+      color: #282828;
+    }
+
+    &__popover {
+      position: absolute;
+      top: calc(100% + 5px);
+      left: 0;
+      right: 0;
+      z-index: 9;
+
+      border: 1px solid #f6f6f6;
+      border-radius: 10px;
+      box-shadow: 2px 2px 9px -1px rgba(218, 218, 218, 0.25);
+      background: #fff;
+      max-height: 210px;
+      overflow: hidden;
+    }
+  }
+
+  &__info {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 133%;
+    letter-spacing: -0.01em;
+    color: var(--grey-cheq);
+  }
+}
