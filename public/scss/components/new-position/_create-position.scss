@@ -5,11 +5,12 @@
   border: 1px solid #f2f2f2;
   background: #f4f6f8;
   max-height: calc(100vh - var(--header-height));
+  overflow-y: auto;
 
   &__top {
     border-radius: 0 0 30px 30px;
     background: rgba($color: #fff, $alpha: 0.8);
-    overflow-y: auto;
+    // overflow-y: auto;
   }
 
   &__header {
