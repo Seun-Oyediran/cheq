@@ -17,7 +17,7 @@ function TokenValue() {
 
 export function CreatePosition() {
   return (
-    <div className="app_create_position flex flex-col justify-between gap-3">
+    <div className="app_create_position flex flex-col justify-between gap-3 scrollbar">
       <div className="app_create_position__top flex-1">
         <div className="app_create_position__header flex flex-col gap-2">
           <div className="flex justify-between items-center">

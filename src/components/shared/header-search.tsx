@@ -12,7 +12,7 @@ function PopoverContent(props: IPopoverContent) {
   const { isOpen } = props;
 
   return (
-    <div className={`w-full app_header_search_popover ${isOpen ? 'open' : ''}`}>
+    <div className={`w-full app_header_search_popover scrollbar ${isOpen ? 'open' : ''}`}>
       <div className="flex flex-col gap-4 py-4">
         <h4 className="app_header_search_popover__title">Tokens</h4>
 
