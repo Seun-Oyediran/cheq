@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Add, CaretDown, Remove } from '@/components/shared/svgs/icons';
+import { spring } from '@/lib/utils/static';
 
 interface IAnimatedNumber {
   value: number;
@@ -14,6 +15,7 @@ function AnimatedNumber(props: IAnimatedNumber) {
       animate={{
         y: `${-72 * value}px`,
       }}
+      transition={spring}
       className="flex flex-col app_timeframe_popover__time__value__animated"
     >
       {Array(10)
