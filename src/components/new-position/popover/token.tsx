@@ -14,7 +14,7 @@ export function Token() {
         />
       </div>
 
-      <div className="app_token_popover__body flex flex-col gap-4">
+      <div className="app_token_popover__body scrollbar flex flex-col gap-4">
         <TokenInfo />
         <TokenInfo />
         <TokenInfo />
