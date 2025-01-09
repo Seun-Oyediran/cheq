@@ -3,7 +3,7 @@ import { Avi } from '../shared';
 import { Settings } from '../shared/svgs/icons';
 import { Button, TokenIcon } from '../ui';
 import { CreatePositionField } from './create-position-field';
-import { PositionType, Token } from './popover';
+import { Metric, PositionType, Timeframe, Token } from './popover';
 import home from '@/lib/assets/home';
 
 function TokenValue() {
@@ -41,7 +41,11 @@ export function CreatePosition() {
             popover={<Token />}
           />
 
+          <CreatePositionField label="Metric" popover={<Metric />} value="FDV" />
+
           <CreatePositionField label="Position type" popover={<PositionType />} value="Public" />
+
+          <CreatePositionField label="Timeframe" popover={<Timeframe />} value="Public" />
         </div>
       </div>
 
