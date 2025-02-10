@@ -10,7 +10,13 @@ const options = [
   { id: 5, label: '1W' },
 ];
 
-export function TimeOptions() {
+interface IProps {
+  layoutId?: string;
+}
+
+export function TimeOptions(props: IProps) {
+  const { layoutId } = props;
+
   const [active, setActive] = useState(options[0].label);
 
   return (
@@ -29,7 +35,7 @@ export function TimeOptions() {
           </div>
           {active === item?.label && (
             <motion.div
-              layoutId="app_time_options"
+              layoutId={`app_time_options_${layoutId}`}
               className="app_time_options__item__bg"
             ></motion.div>
           )}

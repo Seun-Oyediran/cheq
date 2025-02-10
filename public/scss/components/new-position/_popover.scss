@@ -35,6 +35,10 @@
     overflow-y: auto;
     padding: 0 1rem;
   }
+
+  &__body.market_conditions {
+    padding: 0;
+  }
 }
 
 .app_position_type_popover {
@@ -75,11 +79,43 @@
   height: 210px;
   padding: 1.5rem;
 
+  &__options {
+    position: relative;
+
+    &__absolute {
+      position: absolute;
+      top: calc(100% + 5px);
+      right: 0;
+      z-index: 9;
+      max-width: 90px;
+      width: 100%;
+      overflow: hidden;
+      // max-height: 100px;
+    }
+
+    &__dropdown {
+      border: 1px solid #f8f8f8;
+      border-radius: 4px;
+      background: #f4f6f8;
+      padding: 6px 9px;
+
+      &__item {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 133%;
+        letter-spacing: -0.01em;
+        color: #9a9a9a;
+        text-align: left;
+      }
+    }
+  }
+
   &__period {
     border: 1px solid #f8f8f8;
     border-radius: 9px;
     background: #f4f6f8;
     padding: 6px 9px;
+    width: 90px;
 
     &__text {
       font-weight: 600;
@@ -140,5 +176,39 @@
     letter-spacing: -0.01em;
     color: #9a9a9a;
     text-align: center;
+  }
+}
+
+.app_market_conditions_item {
+  &__icon {
+    border-radius: 5px;
+    width: 32px;
+    height: 32px;
+    background: #00ce2c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__icon.blue {
+    background: #008fff;
+  }
+
+  &__name {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 129%;
+    letter-spacing: -0.01em;
+    color: #282828;
+    text-align: left;
+  }
+
+  &__details {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 125%;
+    letter-spacing: -0.01em;
+    color: #9b9fa4;
+    text-align: left;
   }
 }

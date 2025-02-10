@@ -8,10 +8,11 @@ interface IProps {
   info?: ReactNode;
   popover?: ReactNode;
   value?: ReactNode;
+  popoverClassName?: string;
 }
 
 export function CreatePositionField(props: IProps) {
-  const { label, info, popover, value } = props;
+  const { label, info, popover, value, popoverClassName } = props;
   const [isOpen, setIsOpen] = useState(false);
 
   const callback = () => {
@@ -33,7 +34,7 @@ export function CreatePositionField(props: IProps) {
             }}
             className="w-full flex"
           >
-            <div className="app_create_position_field__input flex-1 flex items-center">
+            <div className="app_create_position_field__input flex-1 flex items-center gap-3">
               <div className="app_create_position_field__input__text text-left flex-1">{value}</div>
 
               <CaretDown width={16} height={16} fill="#5F6368" />
@@ -42,7 +43,7 @@ export function CreatePositionField(props: IProps) {
           <AnimatePresence initial={false} mode="wait">
             {isOpen && (
               <motion.div
-                className="app_create_position_field__input__popover flex"
+                className={`app_create_position_field__input__popover flex ${popoverClassName}`}
                 initial="collapsed"
                 animate="open"
                 exit="collapsed"
