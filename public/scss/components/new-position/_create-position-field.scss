@@ -49,3 +49,15 @@
     color: var(--grey-cheq);
   }
 }
+
+.market_conditions_popover {
+  left: 0;
+  right: unset;
+  width: 300px;
+}
+
+.conditions_options_popover {
+  left: unset;
+  right: 0;
+  width: 300px;
+}

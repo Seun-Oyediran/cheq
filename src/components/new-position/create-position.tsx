@@ -3,7 +3,14 @@ import { Avi } from '../shared';
 import { Settings } from '../shared/svgs/icons';
 import { Button, TokenIcon } from '../ui';
 import { CreatePositionField } from './create-position-field';
-import { Metric, PositionType, Timeframe, Token } from './popover';
+import {
+  ConditionOptions,
+  MarketConditions,
+  Metric,
+  PositionType,
+  Timeframe,
+  Token,
+} from './popover';
 import home from '@/lib/assets/home';
 
 function TokenValue() {
@@ -44,6 +51,29 @@ export function CreatePosition() {
           <CreatePositionField label="Metric" popover={<Metric />} value="FDV" />
 
           <CreatePositionField label="Position type" popover={<PositionType />} value="Public" />
+
+          <div className="app_create_position__condition">
+            <h4 className="app_create_position_field__label">Condition definition</h4>
+            <div className="flex gap-2">
+              <div className="app_create_position__condition__big">
+                <CreatePositionField
+                  label=""
+                  popover={<MarketConditions />}
+                  value="FDV"
+                  popoverClassName="market_conditions_popover"
+                />
+              </div>
+
+              <div className="app_create_position__condition__small">
+                <CreatePositionField
+                  label=""
+                  popover={<ConditionOptions />}
+                  value="$100M"
+                  popoverClassName="conditions_options_popover"
+                />
+              </div>
+            </div>
+          </div>
 
           <CreatePositionField label="Timeframe" popover={<Timeframe />} value="Public" />
         </div>

@@ -86,7 +86,7 @@ export function TokenInfo() {
         </div>
 
         <div className="flex justify-center">
-          <TimeOptions />
+          <TimeOptions layoutId="token_info" />
         </div>
       </div>
 

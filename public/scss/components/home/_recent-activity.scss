@@ -6,4 +6,9 @@
     letter-spacing: -0.01em;
     color: #282828;
   }
+
+  &__time__options {
+    position: relative;
+    z-index: 3;
+  }
 }

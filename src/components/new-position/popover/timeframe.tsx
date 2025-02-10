@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+'use client';
+import React, { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Add, CaretDown, Remove } from '@/components/shared/svgs/icons';
 import { spring } from '@/lib/utils/static';
 
@@ -29,31 +30,94 @@ function AnimatedNumber(props: IAnimatedNumber) {
   );
 }
 
+const timeOptions = [
+  { id: 1, label: 'Days', value: 'days' },
+  { id: 2, label: 'Weeks', value: 'weeks' },
+  { id: 3, label: 'Months', value: 'months' },
+];
+
+const maxNumber = {
+  days: 30,
+  weeks: 4,
+  months: 1,
+};
+
+type IDurationType = keyof typeof maxNumber;
+
 export function Timeframe() {
-  const [value, setValue] = useState(1);
+  const [durationType, setDurationType] = useState<IDurationType>('days');
+  const [duration, setDuration] = useState({ days: 1, weeks: 1, months: 1 });
+  const [durationTypePopover, setDurationTypePopover] = useState(false);
 
   const handleDecrease = () => {
-    setValue((prev) => {
-      return Math.max(1, prev - 1);
-    });
+    setDuration((prev) => ({
+      ...prev,
+      [durationType]: Math.max(1, prev?.[durationType] - 1),
+    }));
   };
 
   const handleIncrease = () => {
-    setValue((prev) => {
-      return Math.min(30, prev + 1);
-    });
+    setDuration((prev) => ({
+      ...prev,
+      [durationType]: Math.min(maxNumber?.[durationType], prev?.[durationType] + 1),
+    }));
   };
+
+  useEffect(() => {
+    setDurationTypePopover(false);
+  }, [durationType]);
 
   return (
     <div className="app_timeframe_popover app_create_position_popover flex flex-col justify-between">
       <div className="flex flex-col gap-2">
-        <div className="flex justify-end">
-          <button type="button">
-            <div className="flex items-center gap-3 app_timeframe_popover__period">
-              <p className="app_timeframe_popover__period__text">Days</p>
+        <div className="flex justify-end app_timeframe_popover__options">
+          <button
+            type="button"
+            onClick={() => {
+              setDurationTypePopover((prev) => !prev);
+            }}
+          >
+            <div className="flex items-center justify-between gap-3 app_timeframe_popover__period">
+              <p className="app_timeframe_popover__period__text capitalize">{durationType}</p>
               <CaretDown width={14} height={14} fill="#9A9A9A" />
             </div>
           </button>
+          <AnimatePresence initial={false} mode="wait">
+            {durationTypePopover && (
+              <motion.div
+                className="app_timeframe_popover__options__absolute"
+                initial="collapsed"
+                animate="open"
+                exit="collapsed"
+                variants={{
+                  open: {
+                    maxHeight: '100px',
+                    transition: { duration: 0.2 },
+                  },
+                  collapsed: {
+                    maxHeight: '0px',
+                    transition: { duration: 0.2 },
+                  },
+                }}
+              >
+                <div className="app_timeframe_popover__options__dropdown flex flex-col gap-1">
+                  {timeOptions.map((item) => (
+                    <button
+                      type="button"
+                      key={item?.id}
+                      onClick={() => {
+                        setDurationType(item?.value as IDurationType);
+                      }}
+                    >
+                      <p className="app_timeframe_popover__options__dropdown__item">
+                        {item?.label}
+                      </p>
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         <div className="app_timeframe_popover__time flex flex-col items-center">
@@ -64,7 +128,7 @@ export function Timeframe() {
               </div>
             </button>
             <div className="app_timeframe_popover__time__value flex justify-center">
-              {value
+              {duration?.[durationType]
                 .toString()
                 .split('')
                 .map((digit, index) => (
@@ -79,7 +143,7 @@ export function Timeframe() {
             </button>
           </div>
 
-          <p className="app_timeframe_popover__time__label">Days</p>
+          <p className="app_timeframe_popover__time__label capitalize">{durationType}</p>
         </div>
       </div>
 

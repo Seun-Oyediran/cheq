@@ -26,8 +26,8 @@ export function RecentActiivity() {
 
           <Info width={18} height={18} />
         </div>
-        <div className="">
-          <TimeOptions />
+        <div className="app_recent_activity__time__options">
+          <TimeOptions layoutId="home" />
         </div>
       </div>
 
