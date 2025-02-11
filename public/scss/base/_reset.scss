@@ -110,7 +110,8 @@ select {
 // scrollbar reset starts
 .scrollbar::-webkit-scrollbar {
   width: 2px;
-  height: 4px;
+  // height: 4px;
+  height: 2px;
 }
 
 .scrollbar::-webkit-scrollbar-track {

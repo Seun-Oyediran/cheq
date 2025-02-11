@@ -78,8 +78,8 @@ export function Tokens() {
       </div>
 
       <div className="app_home_tokens__table__wrapper">
-        <div className="app_home_tokens__table">
-          <table className="table-auto app_home_tokens__table__ctt">
+        <div className="app_home_tokens__table scrollbar">
+          <table className="table-auto app_home_tokens__table__ctt w_full">
             <thead className="app_home_tokens__table__ctt__thead">
               <tr>
                 <th className="app_home_tokens__table__ctt__thead__th">Token Name</th>
