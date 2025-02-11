@@ -1,5 +1,5 @@
-import React from 'react';
-import { Avi } from '../shared';
+import React, { useRef, useState } from 'react';
+import { Avi, RenderIf } from '../shared';
 import { Settings } from '../shared/svgs/icons';
 import { Button, TokenIcon } from '../ui';
 import { CreatePositionField } from './create-position-field';
@@ -22,9 +22,39 @@ function TokenValue() {
   );
 }
 
-export function CreatePosition() {
+function AmountInput() {
+  const [value, setValue] = useState('');
+
+  const hasValue = value !== '';
+
   return (
-    <div className="app_create_position flex flex-col justify-between gap-3 scrollbar">
+    <div className="flex-1 app_create_position__stake__field">
+      <RenderIf condition={hasValue}>
+        <p className="app_create_position__stake__field__prefix">$</p>
+      </RenderIf>
+      <input
+        type="number"
+        placeholder="Minimum 5$"
+        className={`w-full app_create_position__stake__field__input ${
+          hasValue ? 'has__value' : ''
+        }`}
+        value={value}
+        onChange={(e) => {
+          setValue(e?.target?.value);
+        }}
+      />
+    </div>
+  );
+}
+
+export function CreatePosition() {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  return (
+    <div
+      ref={containerRef}
+      className="app_create_position flex flex-col justify-between gap-3 scrollbar"
+    >
       <div className="app_create_position__top flex-1">
         <div className="app_create_position__header flex flex-col gap-2">
           <div className="flex justify-between items-center">
@@ -48,34 +78,74 @@ export function CreatePosition() {
             popover={<Token />}
           />
 
-          <CreatePositionField label="Metric" popover={<Metric />} value="FDV" />
+          <CreatePositionField
+            label="Metric"
+            popover={<Metric />}
+            value="FDV"
+            info="FDV’s are affected by token price"
+          />
 
           <CreatePositionField label="Position type" popover={<PositionType />} value="Public" />
 
           <div className="app_create_position__condition">
             <h4 className="app_create_position_field__label">Condition definition</h4>
-            <div className="flex gap-2">
-              <div className="app_create_position__condition__big">
-                <CreatePositionField
-                  label=""
-                  popover={<MarketConditions />}
-                  value="FDV"
-                  popoverClassName="market_conditions_popover"
-                />
+            <div className="flex flex-col gap-1">
+              <div className="flex gap-2">
+                <div className="app_create_position__condition__big">
+                  <CreatePositionField
+                    label=""
+                    popover={<MarketConditions />}
+                    value="FDV"
+                    popoverClassName="market_conditions_popover"
+                  />
+                </div>
+
+                <div className="app_create_position__condition__small">
+                  <CreatePositionField
+                    label=""
+                    popover={<ConditionOptions />}
+                    value="$100M"
+                    popoverClassName="conditions_options_popover"
+                  />
+                </div>
               </div>
 
-              <div className="app_create_position__condition__small">
-                <CreatePositionField
-                  label=""
-                  popover={<ConditionOptions />}
-                  value="$100M"
-                  popoverClassName="conditions_options_popover"
-                />
-              </div>
+              <p className="app_create_position_field__info">
+                Condition definitions can’t be altered once bet is placed
+              </p>
             </div>
           </div>
 
-          <CreatePositionField label="Timeframe" popover={<Timeframe />} value="Public" />
+          <CreatePositionField
+            label="Timeframe"
+            onBeforePopover={() => {
+              if (!containerRef?.current) return;
+              containerRef.current.scrollTop = containerRef.current.scrollHeight;
+            }}
+            popover={<Timeframe />}
+            value="Public"
+          />
+
+          <div className="flex flex-col gap-2 app_create_position__stake">
+            <h4 className="app_create_position_field__label">Stake amount</h4>
+            <div className="flex items-center gap-3">
+              <AmountInput />
+
+              <div className="flex items-center gap-2">
+                <button>
+                  <div className="app_create_position__stake__btn">
+                    <p className="app_create_position__stake__btn__text">25%</p>
+                  </div>
+                </button>
+
+                <button>
+                  <div className="app_create_position__stake__btn">
+                    <p className="app_create_position__stake__btn__text">50%</p>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 

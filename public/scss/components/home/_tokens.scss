@@ -2,6 +2,7 @@
   max-width: 989px;
   margin-left: auto;
   margin-right: auto;
+  width: 100%;
 
   &__options {
     &__btn {
@@ -103,10 +104,15 @@
   }
 
   &__table {
-    overflow-x: auto;
+    overflow-x: scroll;
 
     &__ctt {
+      // width: 100%;
+      // display: none;
+      white-space: nowrap;
       width: 100%;
+      // border-collapse: separate;
+      // border-spacing: 0 12px;
 
       &__thead {
         background-color: #f4f6f8;
@@ -117,8 +123,9 @@
           line-height: 136%;
           letter-spacing: -0.01em;
           color: var(--grey-cheq);
-          padding: 10px 0;
+          padding: 10px;
           text-align: right;
+          // white-space: nowrap;
         }
 
         &__th:first-of-type {
@@ -133,6 +140,7 @@
 
       &__tbody {
         &__td {
+          padding: 10px;
           padding-top: 14px;
           padding-bottom: 14px;
 

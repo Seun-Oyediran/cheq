@@ -9,10 +9,11 @@ interface IProps {
   popover?: ReactNode;
   value?: ReactNode;
   popoverClassName?: string;
+  onBeforePopover?: () => void;
 }
 
 export function CreatePositionField(props: IProps) {
-  const { label, info, popover, value, popoverClassName } = props;
+  const { label, info, popover, value, popoverClassName, onBeforePopover = () => {} } = props;
   const [isOpen, setIsOpen] = useState(false);
 
   const callback = () => {
@@ -30,6 +31,10 @@ export function CreatePositionField(props: IProps) {
           <button
             type="button"
             onClick={() => {
+              if (!isOpen) {
+                onBeforePopover();
+              }
+
               setIsOpen((prev) => !prev);
             }}
             className="w-full flex"
