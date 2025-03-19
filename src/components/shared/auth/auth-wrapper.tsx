@@ -33,7 +33,7 @@ export function AuthWrapper(props: IProps) {
               scale: 1,
             },
             collapsed: {
-              // filter: 'blur(0px)',
+              // filter: 'blur(5px)',
               transition: { duration: 0.1 },
               opacity: 1,
               scale: 1,
