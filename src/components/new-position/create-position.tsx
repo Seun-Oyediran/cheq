@@ -12,6 +12,9 @@ import {
   Token,
 } from './popover';
 import home from '@/lib/assets/home';
+import { PositionOpened } from './position-opened';
+import { useAppContext } from '@/state/context';
+import { updatePositionOpenedModal } from '@/state/reducer';
 
 function TokenValue() {
   return (
@@ -48,6 +51,7 @@ function AmountInput() {
 }
 
 export function CreatePosition() {
+  const { dispatch } = useAppContext();
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   return (
@@ -163,7 +167,16 @@ export function CreatePosition() {
             <p className="app_create_position__footer__ctt__text">$250</p>
           </div>
         </div>
-        <Button className="app_create_position__footer__btn">Open New position</Button>
+
+        <Button
+          className="app_create_position__footer__btn"
+          onClick={() => {
+            dispatch(updatePositionOpenedModal(true));
+          }}
+        >
+          Open New position
+        </Button>
+        <PositionOpened />
       </div>
     </div>
   );

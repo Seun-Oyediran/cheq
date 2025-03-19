@@ -7,6 +7,9 @@ export const initialAppState = {
     show: false,
     variant: 'login' as IAuthModalVariants,
   },
+  positionOpened: {
+    show: false,
+  },
 };
 
 export type AppState = ReturnType<() => typeof initialAppState>;

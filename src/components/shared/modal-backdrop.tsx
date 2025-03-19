@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 import { useAppContext } from '@/state/context';
 
 export function ModalBackdrop() {
-  const { authModal } = useAppContext().state;
-  const condition = authModal.show;
+  const { authModal, positionOpened } = useAppContext().state;
+  const condition = authModal.show || positionOpened.show;
 
   return (
     <Fragment>
