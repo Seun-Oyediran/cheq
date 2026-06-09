@@ -3,7 +3,7 @@ import Image, { type StaticImageData } from 'next/image';
 
 interface IProps {
   size?: number;
-  src: StaticImageData;
+  src: StaticImageData | string;
 }
 
 export function TokenIcon(props: IProps) {
@@ -16,7 +16,7 @@ export function TokenIcon(props: IProps) {
         width: `${size}px`,
       }}
     >
-      <Image src={src} alt="icon" />
+      <Image src={src} alt="icon" width={size} height={size} />
     </div>
   );
 }
