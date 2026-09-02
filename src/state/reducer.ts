@@ -8,8 +8,10 @@ export function appReducer(state: AppState, action: AppActions): AppState {
       return {
         ...state,
         authModal: {
+          ...state.authModal,
           show: action.payload.show,
           variant: action.payload.variant,
+          ...(action.payload.username !== undefined && { username: action.payload.username }),
         },
       };
 
@@ -29,12 +31,14 @@ export function appReducer(state: AppState, action: AppActions): AppState {
 interface IUpdateAuthModal {
   show: boolean;
   variant?: IAuthModalVariants;
+  username?: string;
 }
-export const updateAuthModal = ({ show, variant = 'login' }: IUpdateAuthModal) => ({
+export const updateAuthModal = ({ show, variant = 'login', username }: IUpdateAuthModal) => ({
   type: ActionType.UpdateAuthModal,
   payload: {
     show,
     variant,
+    username,
   },
 });
 

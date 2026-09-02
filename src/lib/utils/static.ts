@@ -88,11 +88,11 @@ export const authModalVariants = {
     height: '370px',
   },
   selectAvatar: {
-    height: '510px',
+    height: '402px',
   },
 
   welcome: {
-    height: '424px',
+    height: '402px',
   },
 };
 
@@ -102,4 +102,10 @@ export const spring = {
   type: 'spring',
   damping: 20,
   stiffness: 150,
+};
+
+export const snappySpring = {
+  type: 'spring',
+  damping: 28,
+  stiffness: 350,
 };

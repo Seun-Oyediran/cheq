@@ -10,6 +10,7 @@ export interface UpdateAuthModal {
   payload: {
     show: boolean;
     variant: IAuthModalVariants;
+    username?: string;
   };
 }
 

@@ -6,6 +6,7 @@ export const initialAppState = {
   authModal: {
     show: false,
     variant: 'login' as IAuthModalVariants,
+    username: '',
   },
   positionOpened: {
     show: false,

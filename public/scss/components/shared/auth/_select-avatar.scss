@@ -1,6 +1,11 @@
 .app_select_avatar {
   &__icons {
-    height: 75px;
+    &__item {
+      height: 72px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
   }
 
   &__info {

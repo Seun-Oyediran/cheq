@@ -1,7 +1,6 @@
 'use client';
 import React from 'react';
 import Link from 'next/link';
-import { Popover } from 'react-tiny-popover';
 import { Logo, LogoText } from './svgs/icons';
 import routes from '@/lib/routes';
 import { AuthWrapper, CreateAccount, Login, SelectAvatar, Welcome } from './auth';
@@ -9,15 +8,24 @@ import { RenderIf } from './render-if';
 import { useAppContext } from '@/state/context';
 import { updateAuthModal } from '@/state/reducer';
 import { HeaderSearch } from './header-search';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 export function Header() {
   const { state, dispatch } = useAppContext();
 
-  const showPopover = () => {
+  const openAuthModal = (variant: 'login' | 'createAccount') => {
     dispatch(
       updateAuthModal({
         show: true,
-        variant: 'login',
+        variant,
+      })
+    );
+  };
+
+  const closeAuthModal = () => {
+    dispatch(
+      updateAuthModal({
+        show: false,
       })
     );
   };
@@ -57,23 +65,31 @@ export function Header() {
         <HeaderSearch />
 
         <div className="app_header__auth flex items-center justify-end flex-1">
-          <button className="app_header__auth__btn" type="button" onClick={showPopover}>
+          <button
+            className="app_header__auth__btn"
+            type="button"
+            onClick={() => {
+              openAuthModal('login');
+            }}
+          >
             Log In
           </button>
-          <Popover
-            isOpen={state.authModal.show}
-            positions={['bottom']}
-            align="end"
-            padding={24}
-            containerClassName="app_auth_popover"
-            onClickOutside={() => {
-              dispatch(
-                updateAuthModal({
-                  show: false,
-                })
-              );
+          <button
+            className="app_header__auth__btn app_header__auth__btn__signup"
+            type="button"
+            onClick={() => {
+              openAuthModal('login');
             }}
-            content={
+          >
+            Sign Up
+          </button>
+          <Dialog
+            open={state.authModal.show}
+            onOpenChange={(open) => {
+              if (!open) closeAuthModal();
+            }}
+          >
+            <DialogContent showCloseButton={false} className="app_auth_popover">
               <AuthWrapper>
                 <RenderIf condition={state.authModal.variant === 'welcome'}>
                   <Welcome />
@@ -91,16 +107,8 @@ export function Header() {
                   <CreateAccount />
                 </RenderIf>
               </AuthWrapper>
-            }
-          >
-            <button
-              className="app_header__auth__btn app_header__auth__btn__signup"
-              type="button"
-              onClick={showPopover}
-            >
-              Sign Up
-            </button>
-          </Popover>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </div>

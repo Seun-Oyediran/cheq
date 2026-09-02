@@ -2,7 +2,7 @@
 import React, { type ReactNode } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useAppContext } from '@/state/context';
-import { authModalVariants, spring } from '@/lib/utils/static';
+import { authModalVariants, spring, snappySpring } from '@/lib/utils/static';
 
 interface IProps {
   children?: ReactNode;
@@ -16,7 +16,10 @@ export function AuthWrapper(props: IProps) {
     <motion.div
       className="app_auth_wrapper"
       initial={{ height: authModalVariants[authModal.variant].height }}
-      animate={{ height: authModalVariants[authModal.variant].height, transition: spring }}
+      animate={{
+        height: authModalVariants[authModal.variant].height,
+        transition: authModal.variant === 'createAccount' ? snappySpring : spring,
+      }}
     >
       <AnimatePresence initial={false} mode="wait">
         <motion.div

@@ -1,9 +1,10 @@
 .app_login {
+  font-family: var(--font-geist-sans);
   &__top {
     &__title {
       &__text {
-        font-weight: 700;
-        font-size: 20px;
+        font-weight: 500;
+        font-size: 16px;
         line-height: 100%;
         letter-spacing: -0.01em;
         color: #282828;
@@ -12,7 +13,7 @@
 
       &__info {
         font-weight: 500;
-        font-size: 14px;
+        font-size: 12px;
         line-height: 143%;
         letter-spacing: -0.01em;
         text-align: center;
@@ -22,32 +23,39 @@
 
     &__email {
       border: 1px solid #f8f8f8;
-      border-radius: 10px;
+      border-radius: 8px;
       background: #f4f6f8;
       padding-right: 7px;
+      box-shadow: 0px 0px 0px 1px #0000000a;
 
       &__input {
         background-color: transparent;
-        height: 44px;
+        height: 48px;
         padding: 12px;
 
-        font-weight: 600;
+        font-weight: 400;
         font-size: 14px;
         line-height: 143%;
         letter-spacing: -0.01em;
-        color: var(--grey-cheq);
+        color: #282828;
+
+        &:-webkit-autofill {
+          -webkit-box-shadow: 0 0 0 1000px #f4f6f8 inset;
+          -webkit-text-fill-color: #282828;
+        }
       }
 
       &__btn {
         padding: 5px 10px;
         border-radius: 6px;
-        background: var(--stroke-plain-mirror);
+        background: #0b0b0b;
 
-        font-weight: 600;
+        font-weight: 400;
         font-size: 14px;
         line-height: 143%;
         letter-spacing: -0.01em;
-        color: var(--grey-cheq);
+        color: #f9f9f9e5;
+        box-shadow: 0px 0.5px 0px 1px #dcdcdc40;
       }
     }
 
@@ -61,16 +69,11 @@
       }
 
       &__text {
-        position: absolute;
-        top: 50%;
-        left: 0;
-        width: 100%;
-        transform: translateY(-50%);
         text-align: center;
         z-index: 1;
 
-        font-weight: 500;
-        font-size: 14px;
+        font-weight: 400;
+        font-size: 13px;
         line-height: 107%;
         letter-spacing: -0.01em;
         text-align: center;
@@ -79,20 +82,40 @@
     }
   }
 
+  &__bottom {
+    overflow-y: overlay;
+
+    &::-webkit-scrollbar {
+      width: 3px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: transparent;
+      border-radius: 3px;
+      transition: background 0.2s;
+    }
+    &:hover::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.15);
+    }
+  }
+
   &__wallet {
-    border: 1px solid #f8f8f8;
-    border-radius: 10px;
-    padding: 10px;
+    // background-color: red;
+    background-color: #f4f6f8;
+    border-radius: 12px;
+    padding: 8px 24px;
 
     &__icon {
-      width: 24px;
-      height: 24px;
+      width: 32px;
+      height: 32px;
       object-fit: contain;
     }
 
     &__name {
-      font-weight: 600;
-      font-size: 14px;
+      font-weight: 500;
+      font-size: 16px;
       line-height: 143%;
       letter-spacing: -0.01em;
       text-align: center;

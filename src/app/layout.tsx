@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
+import './globals.css';
 import '../../public/scss/main.scss';
 import { Nunito } from 'next/font/google';
+import { GeistSans } from 'geist/font/sans';
 import Provider from '@/state/provider';
 import { Layout } from '@/components/shared/layout';
 
@@ -23,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${nunito.variable}`}>
+    <html lang="en" className={`${nunito.variable} ${GeistSans.variable}`}>
       <Provider>
         <body>
           <Layout>{children}</Layout>
