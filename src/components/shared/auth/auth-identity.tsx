@@ -113,17 +113,18 @@ export function AuthIdentity({ username }: { username: string }) {
   return (
     <div className="flex flex-col items-center gap-1 justify-center">
       <h2 className="text-sm font-medium text-[#F9F9F9]">{username || 'Anonymous'}</h2>
-      {/* The sizes here need `!`. `* { font-size: inherit }` in _reset.scss is
-          unlayered, and unlayered CSS beats a layered utility whatever the
-          specificity — so text-[12px] lost and this paragraph rendered at the
-          inherited 14px. That is why a 42-character address looked like it
-          could not fit on one line: at 14px it is 325px against the 286px this
-          row has, but at the 12px actually asked for it is 279px. Tracking a
-          hair tight is safe here — a hex string is read character by
-          character, not scanned as words. */}
-      <div className="flex items-center gap-1.5 justify-center">
-        <p className="text-[12px]! tracking-[-0.01em]! whitespace-nowrap text-[#F9F9F980]">
-          {WALLET_ADDRESS}
+      {/* Back to the short form. The full address is still the single source —
+          the truncation is sliced from it rather than being a second hardcoded
+          string, which is how the two drifted apart the first time and left the
+          copy value seven hex characters short of a real address.
+
+          text-[13px] does not actually apply: `* { font-size: inherit }` in
+          _reset.scss is unlayered and beats a layered utility whatever the
+          specificity, so this renders at the inherited 14px, exactly as it did
+          before. Adding `!` would make it the 13px it says. */}
+      <div className="flex items-center gap-1">
+        <p className="text-[13px] text-[#F9F9F980]">
+          {`${WALLET_ADDRESS.slice(0, 4)}...${WALLET_ADDRESS.slice(-4)}`}
         </p>
         <CopyButton address={WALLET_ADDRESS} />
       </div>
