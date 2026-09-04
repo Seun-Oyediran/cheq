@@ -1,6 +1,6 @@
 'use client';
 import { RenderIf } from '@/components/shared';
-import { AuthWrapper, CreateAccount, Login, SelectAvatar, Welcome } from '@/components/shared/auth';
+import { AuthWrapper, CreateAccount, Login, SelectAvatar } from '@/components/shared/auth';
 import { useAppContext } from '@/state/context';
 import React from 'react';
 
@@ -12,11 +12,8 @@ export default function Page() {
       <p>Hello from ui</p>
       <div className="flex justify-center gap-6">
         <AuthWrapper>
-          <RenderIf condition={state.authModal.variant === 'welcome'}>
-            <Welcome />
-          </RenderIf>
 
-          <RenderIf condition={state.authModal.variant === 'selectAvatar'}>
+          <RenderIf condition={state.authModal.variant === 'selectAvatar' || state.authModal.variant === 'welcome'}>
             <SelectAvatar />
           </RenderIf>
 

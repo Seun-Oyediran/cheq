@@ -5,33 +5,50 @@
       font-size: 14px;
       line-height: 143%;
       letter-spacing: -0.01em;
-      color: #282828;
+      color: var(--auth-text);
     }
 
     &__info {
       font-weight: 400;
       font-size: 12px !important;
-      line-height: 133%;
+      line-height: 18px;
       letter-spacing: -0.01em;
-      color: #afb3b8;
+      // 3.18:1 against the card — clears the 3:1 UI/large-text floor, still
+      // under the 4.5:1 AA floor for normal text (that would need L 0.564).
+      color: oklch(0.649 0 0);
     }
   }
 
-  &__bottom {
-    &__terms {
-      &__box {
-        width: 20px;
-        height: 20px;
-        border: 1px solid #dcdcdc;
-        border-radius: 5px;
-      }
+  // Matches the login CTA and the wallet rows rather than the shadcn pill.
+  &__continue {
+    @include squircle(26px, 60);
+  }
 
+  &__bottom {
+    // Sized to the taller of the two states, with the states stacked on top of
+    // each other so they can cross-fade in place. With the disclaimer trimmed
+    // to two lines (36px) the taller one is now the 48px button, not the text.
+    position: relative;
+    min-height: 48px;
+
+    &__slot {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+
+      > * {
+        width: 100%;
+      }
+    }
+
+    &__terms {
       &__text {
         font-weight: 400;
-        font-size: 12px;
-        line-height: 114%;
+        font-size: 13px;
+        line-height: 18px;
         letter-spacing: -0.01em;
-        color: #afb3b8;
+        color: var(--auth-text-muted);
         flex: 1;
       }
     }

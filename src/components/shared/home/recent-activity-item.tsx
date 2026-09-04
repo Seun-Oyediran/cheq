@@ -14,9 +14,18 @@ interface IProps {
   duration?: number;
 }
 
-function RecentActivityItemLoading() {
+// forwardRef because this sits directly inside <AnimatePresence mode="popLayout">,
+// which wraps each child in PopChild and passes it a ref to measure it. A plain
+// function component cannot take one, which is what the console warning was.
+const RecentActivityItemLoading = React.forwardRef<HTMLDivElement>(function RecentActivityItemLoading(
+  _props,
+  ref
+) {
   return (
-    <div className="app_recent_activity_item flex justify-between items-center gap-4">
+    <div
+      ref={ref}
+      className="app_recent_activity_item flex justify-between items-center gap-4"
+    >
       <div className="app_recent_activity_item__left flex gap-2 items-center">
         <div className="">
           <SkeletonLoader height="40px" width="40px" borderRadius="50%" />
@@ -32,7 +41,7 @@ function RecentActivityItemLoading() {
       </div>
     </div>
   );
-}
+});
 
 export function RecentActivityItem(props: IProps) {
   const { data, duration = 2 } = props;

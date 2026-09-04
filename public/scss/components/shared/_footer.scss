@@ -10,7 +10,7 @@
   &__left {
     &__details {
       max-width: 492px;
-      font-weight: 600;
+      font-weight: 500;
       font-size: 11px;
       line-height: 127%;
       letter-spacing: -0.01em;
@@ -20,7 +20,7 @@
 
   &__social {
     &__text {
-      font-weight: 600;
+      font-weight: 500;
       font-size: 14px;
       line-height: 100%;
       letter-spacing: -0.01em;
@@ -30,14 +30,14 @@
 
   &__item {
     &__text {
-      font-weight: 500;
+      font-weight: 400;
       font-size: 14px;
       line-height: 136%;
       letter-spacing: -0.01em;
       color: var(--grey-cheq);
 
       &__bold {
-        font-weight: 700;
+        font-weight: 600;
         color: #282828;
       }
     }

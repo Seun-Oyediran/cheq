@@ -5,3 +5,74 @@
   --icon: #8b8b8b;
   --grey-cheq: #9b9fa4;
 }
+
+// ---------------------------------------------------------------------------
+// Neutral ramp (OKLCH)
+//
+// Sampled from the Aave connect-wallet reference and rebuilt as a uniform
+// scale. Every step shares hue 286 — the reference greys are not neutral, they
+// carry a consistent cool cast, and holding the hue constant is what keeps the
+// ramp from drifting the way an HSL scale would. Chroma stays ~0.001-0.007,
+// tracking the sampled values rather than flattening them to pure grey.
+// Lightness is the only channel that moves, so contrast is tunable on one axis.
+// ---------------------------------------------------------------------------
+:root {
+  --n-25: oklch(0.995 0.001 286);
+  --n-50: oklch(0.985 0.002 286);
+  --n-75: oklch(0.966 0.002 286);
+  --n-100: oklch(0.93 0.003 286);
+  --n-200: oklch(0.855 0.004 286);
+  --n-300: oklch(0.758 0.006 286);
+  --n-400: oklch(0.635 0.006 286);
+  --n-500: oklch(0.52 0.006 286);
+  --n-600: oklch(0.411 0.007 286);
+  --n-700: oklch(0.35 0.005 286);
+  --n-800: oklch(0.286 0.004 286);
+  --n-850: oklch(0.244 0.004 286);
+  --n-900: oklch(0.223 0.004 286);
+  --n-950: oklch(0.18 0.004 286);
+
+  // Auth modal roles — light by default.
+  //
+  // Not a strict lightness mirror of the dark set. Light surfaces need far less
+  // separation than dark ones to read as distinct (the dark card/row gap is
+  // dL 0.063; here it is 0.029), so the roles preserve the *relationships* of
+  // the reference — card lightest, rows a step down, footer between — rather
+  // than its raw numbers.
+  --auth-surface: var(--n-25);
+  --auth-surface-row: var(--n-75);
+  --auth-surface-row-hover: var(--n-100);
+  --auth-surface-footer: var(--n-50);
+  --auth-border: var(--n-200);
+  // #1f1f1f, as specified. Note this is chroma 0 — a true neutral — where the
+  // rest of the ramp carries the reference's 286 cool cast.
+  --auth-text: oklch(0.239 0 0);
+  --auth-text-muted: var(--n-500);
+  --auth-text-link: var(--n-600);
+  // Matched to the reference, which uses a notably lighter grey for placeholder
+  // text than for body copy. See the note in _login.scss — this sits below the
+  // AA contrast floor by design.
+  --auth-text-placeholder: var(--n-300);
+  // The one real hue in the modal. Base and hover share a hue so the state
+  // change reads as a lightness step, not a colour shift.
+  --auth-accent: oklch(0.68 0.16 270);
+  // Same step as the pair this replaced: -0.05 L, +0.02 C, hue held.
+  --auth-accent-hover: oklch(0.63 0.18 270);
+  --auth-danger: oklch(0.698 0.166 17);
+}
+
+// Dark set — the reference palette. Opt in with `class="dark"` on <html>,
+// matching the `dark` custom variant already declared in globals.css.
+:root.dark,
+.dark {
+  --auth-surface: var(--n-900);
+  --auth-surface-row: var(--n-800);
+  --auth-surface-row-hover: var(--n-700);
+  --auth-surface-footer: var(--n-850);
+  --auth-border: var(--n-700);
+  --auth-text: var(--n-50);
+  --auth-text-muted: var(--n-400);
+  --auth-text-link: var(--n-300);
+  // Same lightness gap from the field as the light value (dL 0.208).
+  --auth-text-placeholder: var(--n-500);
+}

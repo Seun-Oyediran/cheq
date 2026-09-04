@@ -11,6 +11,8 @@ export interface UpdateAuthModal {
     show: boolean;
     variant: IAuthModalVariants;
     username?: string;
+    colorIdx?: number;
+    exprIdx?: number;
   };
 }
 

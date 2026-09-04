@@ -83,7 +83,8 @@ function PositionOpenedPopover() {
         <div className="app_position_opened__center__referral flex justify-center">
           <button>
             <div className="flex items-center gap-2 app_position_opened__center__referral__btn">
-              <Copy />
+              {/* The icon carried its own #282828 fill before; it inherits now. */}
+              <Copy className="text-[#282828]" />
               <p className="app_position_opened__center__referral__text">Copy referral</p>
             </div>
           </button>

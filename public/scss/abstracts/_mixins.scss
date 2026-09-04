@@ -1,0 +1,19 @@
+@use 'sass:math';
+
+// iOS-style corner smoothing (Figma "corner smoothing", 0-100%).
+//
+// CSS `corner-shape: superellipse(k)` uses a logarithmic scale, NOT the plain
+// mathematical superellipse exponent:
+//   bevel = superellipse(0)   round = superellipse(1)   squircle = superellipse(2)
+// so a circular arc (Figma 0%) is k = 1 and the iOS squircle (Figma 60%) is k = 2.
+//
+// Browsers without `corner-shape` fall back to the plain `border-radius`,
+// so the corner still rounds, just without the smoothing.
+@mixin squircle($radius, $smoothing: 60) {
+  border-radius: $radius;
+
+  @supports (corner-shape: superellipse(2)) {
+    // 0% -> 1 (circular), 60% -> 2 (iOS squircle)
+    corner-shape: superellipse(1 + math.div($smoothing, 60));
+  }
+}

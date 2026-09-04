@@ -1,9 +1,53 @@
 .app_auth_wrapper {
-  border-radius: 16px;
+  // Rounder edges with iOS corner smoothing (Figma 60%).
+  @include squircle(28px, 60);
   // width: 430px;
   width: 100%;
   height: auto;
+  // Old and new screens overlap during the crossfade, so they are absolutely
+  // positioned against this box.
+  position: relative;
   overflow: hidden;
   // padding: 28px 24px;
-  background-color: #fff;
+  background-color: var(--auth-surface);
+  transition: background-color 200ms ease;
+
+  // The avatar and welcome screens sit on their own dark panel. It lives here
+  // rather than on the screens so it stays opaque through a cross-fade.
+  &--dark {
+    background-color: #1e1e1e;
+  }
+  // Elevation instead of a border — the shadow follows the squircle, a ring
+  // would have traced a circular corner around it.
+  box-shadow:
+    // No offset, so this layer wraps every edge including the top.
+    0 0 20px oklch(0 0 0 / 0.07),
+    0 1px 2px oklch(0 0 0 / 0.04),
+    0 8px 24px -6px oklch(0 0 0 / 0.1),
+    0 24px 48px -12px oklch(0 0 0 / 0.12);
+}
+
+// Primary CTA shared by the auth screens. Same squircle as the login CTA and
+// the wallet rows, rather than the shadcn pill.
+.app_auth_cta {
+  @include squircle(26px, 60);
+}
+
+// The CTA's label and spinner stack in one box so they can slide past each
+// other without changing the button's size. overflow: hidden clips them to the
+// button, so they appear to travel in and out of its bottom edge.
+.app_auth_cta__stack {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 1lh;
+  overflow: hidden;
+}
+
+.app_auth_cta__face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

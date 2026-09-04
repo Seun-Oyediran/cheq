@@ -12,7 +12,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: var(--font-family-nunito);
+  font-family: var(--font-inter-display);
 }
 
 body {
@@ -148,6 +148,15 @@ select {
   z-index: 9999;
   max-width: 360px;
   width: 100%;
+  // Drop shadcn's default `ring-1 ring-foreground/10` — the inner card owns
+  // its own edge, and the ring traced a circular 16px corner around it.
+  box-shadow: none;
+  // This sits at the same rect as .app_auth_wrapper. Its white background and
+  // circular `rounded-2xl` painted straight through the corners the card's
+  // squircle clips away, so the card's radius never showed. Let the card own
+  // the shape.
+  background: transparent;
+  border-radius: 0;
 }
 
 .app_search_popover {
@@ -159,4 +168,26 @@ select {
 .app_create_position_popover {
   z-index: 99;
   // width: 100%;
+}
+
+// Squircle corners are the app default: any element with a border-radius gets
+// iOS-style corner smoothing. `corner-shape` has no effect where the radius is
+// 0, so this is a no-op for square elements.
+//
+// Circles and pills are excluded. At radius >= half the smaller dimension the
+// corner boxes meet, and a superellipse there deforms a circle into a blob and
+// a pill into a lozenge, so those must stay `round`.
+@supports (corner-shape: squircle) {
+  *:not(.no-squircle) {
+    corner-shape: squircle;
+  }
+
+  [class*='rounded-full'],
+  [class*='rounded-[30px]'],
+  [class*='styles-module__'],
+  .app_skeleton_loader,
+  .app_quick_match_card__action,
+  .no-squircle {
+    corner-shape: round;
+  }
 }

@@ -7,6 +7,10 @@ export const initialAppState = {
     show: false,
     variant: 'login' as IAuthModalVariants,
     username: '',
+    // The avatar the user builds on Select avatar, carried to Welcome so the
+    // final screen shows the one they made rather than a hardcoded default.
+    colorIdx: 2,
+    exprIdx: 2,
   },
   positionOpened: {
     show: false,

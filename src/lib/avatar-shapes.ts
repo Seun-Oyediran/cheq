@@ -40,6 +40,51 @@ export function makeCircle(r: number): ShapePoint[] {
   ];
 }
 
+/**
+ * A rectangle with its corners fully rounded — a stadium. Written as the same
+ * eight points makeRect and makeCircle produce, so an eye can morph to any
+ * other eye without the path interpolation falling apart on a command-count
+ * mismatch. That matters for the blinks too, which interpolate against
+ * whichever eye is currently showing.
+ *
+ * A 40px radius on shapes a couple of units across is past any corner they
+ * have, so it clamps to half the short side: the caps become true semicircles
+ * and the straight sides run between them. Four of the eight segments are the
+ * caps, drawn as quarter arcs with the standard kappa handles; the other four
+ * are straight and carry no handles at all.
+ */
+export function makeStadium(w: number, h: number): ShapePoint[] {
+  const hw = w / 2;
+  const hh = h / 2;
+  const r = Math.min(hw, hh);
+  const k = r * (4 / 3) * Math.tan(Math.PI / 8);
+
+  if (hw >= hh) {
+    // Wide: the caps are the left and right ends.
+    return [
+      { p: [hw, 0], hi: [0, -k], ho: [0, k] },
+      { p: [hw - r, hh], hi: [k, 0], ho: O },
+      { p: [0, hh], hi: O, ho: O },
+      { p: [-hw + r, hh], hi: O, ho: [-k, 0] },
+      { p: [-hw, 0], hi: [0, k], ho: [0, -k] },
+      { p: [-hw + r, -hh], hi: [-k, 0], ho: O },
+      { p: [0, -hh], hi: O, ho: O },
+      { p: [hw - r, -hh], hi: O, ho: [k, 0] },
+    ];
+  }
+  // Tall: the caps are the top and bottom.
+  return [
+    { p: [hw, 0], hi: O, ho: O },
+    { p: [hw, hh - r], hi: O, ho: [0, k] },
+    { p: [0, hh], hi: [k, 0], ho: [-k, 0] },
+    { p: [-hw, hh - r], hi: [0, k], ho: O },
+    { p: [-hw, 0], hi: O, ho: O },
+    { p: [-hw, -hh + r], hi: O, ho: [0, -k] },
+    { p: [0, -hh], hi: [-k, 0], ho: [k, 0] },
+    { p: [hw, -hh + r], hi: [0, -k], ho: O },
+  ];
+}
+
 export function makeRect(w: number, h: number): ShapePoint[] {
   const hw = w / 2, hh = h / 2;
   return [
@@ -78,10 +123,10 @@ function scaleShape(shape: ShapePoint[], s: number): ShapePoint[] {
 
 // Eye shapes (scaled for 40×40)
 export const eyeCircle = makeCircle(1.6 * S);
-export const eyeHBar = makeRect(5 * S, 1.5 * S);
-export const eyeVBar = makeRect(1.5 * S, 5 * S);
-export const eyeDiagLeft = rotShape(makeRect(4.5 * S, 1.5 * S), Math.PI / 4);
-export const eyeDiagRight = rotShape(makeRect(4.5 * S, 1.5 * S), -Math.PI / 4);
+export const eyeHBar = makeStadium(5 * S, 1.5 * S);
+export const eyeVBar = makeStadium(1.5 * S, 5 * S);
+export const eyeDiagLeft = rotShape(makeStadium(4.5 * S, 1.5 * S), Math.PI / 4);
+export const eyeDiagRight = rotShape(makeStadium(4.5 * S, 1.5 * S), -Math.PI / 4);
 
 export const eyeCurved: ShapePoint[] = scaleShape([
   { p: [2.0, 0.3], hi: [0, -0.6], ho: [0, 0.6] },
@@ -176,13 +221,13 @@ export interface IdleAnimation {
   times: number[];
 }
 
-const blinkClosed = makeRect(3 * S, 0.3 * S);
-const hBarNarrow = makeRect(4 * S, 1.5 * S);
-const vBarTall = makeRect(1.5 * S, 6 * S);
-const diagLeftRockA = rotShape(makeRect(4.5 * S, 1.5 * S), Math.PI / 4 + 0.12);
-const diagLeftRockB = rotShape(makeRect(4.5 * S, 1.5 * S), Math.PI / 4 - 0.12);
-const diagRightRockA = rotShape(makeRect(4.5 * S, 1.5 * S), -Math.PI / 4 + 0.12);
-const diagRightRockB = rotShape(makeRect(4.5 * S, 1.5 * S), -Math.PI / 4 - 0.12);
+const blinkClosed = makeStadium(3 * S, 0.3 * S);
+const hBarNarrow = makeStadium(4 * S, 1.5 * S);
+const vBarTall = makeStadium(1.5 * S, 6 * S);
+const diagLeftRockA = rotShape(makeStadium(4.5 * S, 1.5 * S), Math.PI / 4 + 0.12);
+const diagLeftRockB = rotShape(makeStadium(4.5 * S, 1.5 * S), Math.PI / 4 - 0.12);
+const diagRightRockA = rotShape(makeStadium(4.5 * S, 1.5 * S), -Math.PI / 4 + 0.12);
+const diagRightRockB = rotShape(makeStadium(4.5 * S, 1.5 * S), -Math.PI / 4 - 0.12);
 const curvedUp = shiftShape(eyeCurved, 0, -0.5 * S);
 const chevronRightJitterA = shiftShape(eyeChevronRight, 0.3 * S, 0);
 const chevronRightJitterB = shiftShape(eyeChevronRight, -0.3 * S, 0);
@@ -191,7 +236,41 @@ const chevronLeftJitterB = shiftShape(eyeChevronLeft, -0.3 * S, 0);
 
 const ep = (shape: ShapePoint[], cx: number) => buildPath(shape, cx, ECY);
 
-export const IDLE_ANIMATIONS: IdleAnimation[] = [
+// Every expression gets a blink, not just the round-eyed one. Each animation
+// keeps its own movement at its own speed — the original keyframes are scaled
+// into the front of a longer loop, so they play at the same rate — then the
+// eyes rest, then blink. That gives one blink roughly every LOOP_S seconds
+// regardless of how long the expression's own motion takes.
+const LOOP_S = 4;
+// A blink is two fast movements. The closing half used to be interpolated from
+// wherever the expression's own motion ended all the way to the shut frame —
+// 480ms on the longest expression and 1.6s on the shortest — so the eyes sank
+// closed and then snapped open. Holding the rest pose until just before the
+// shut gives the close its own short interval, in real time rather than as a
+// leftover fraction of the loop.
+const BLINK_AT = 0.9;
+const BLINK_CLOSE_S = 0.07;
+const BLINK_REOPEN_S = 0.1;
+
+const withBlink = (a: IdleAnimation): IdleAnimation => {
+  const motionEnd = Math.min(0.78, a.duration / LOOP_S);
+  const restL = a.left[a.left.length - 1];
+  const restR = a.right[a.right.length - 1];
+  return {
+    left: [...a.left, restL, ep(blinkClosed, LCX), restL, restL],
+    right: [...a.right, restR, ep(blinkClosed, RCX), restR, restR],
+    times: [
+      ...a.times.map((t) => t * motionEnd),
+      BLINK_AT - BLINK_CLOSE_S / LOOP_S,
+      BLINK_AT,
+      BLINK_AT + BLINK_REOPEN_S / LOOP_S,
+      1,
+    ],
+    duration: LOOP_S,
+  };
+};
+
+const BASE_IDLE_ANIMATIONS: IdleAnimation[] = [
   {
     left: [ep(eyeCircle, LCX), ep(eyeCircle, LCX), ep(blinkClosed, LCX), ep(eyeCircle, LCX), ep(eyeCircle, LCX)],
     right: [ep(eyeCircle, RCX), ep(eyeCircle, RCX), ep(blinkClosed, RCX), ep(eyeCircle, RCX), ep(eyeCircle, RCX)],
@@ -230,6 +309,8 @@ export const IDLE_ANIMATIONS: IdleAnimation[] = [
   },
 ];
 
+export const IDLE_ANIMATIONS: IdleAnimation[] = BASE_IDLE_ANIMATIONS.map(withBlink);
+
 // Colors
 export interface ColorScheme {
   key: string;
@@ -238,14 +319,31 @@ export interface ColorScheme {
   gradientTo: string;
   borderFrom: string;
   borderTo: string;
+  ring: string;
+  eye: string;
+  /** The pulse runs lighter than the eyes — same hue, L raised to ~0.88, with
+   *  chroma clamped to what each hue can actually hold there (blue and purple
+   *  clip above ~0.06). All five land at 11-13:1 against the panel. */
+  /** The scheme's hue in OKLCH degrees. Kept as a number so effects can spread
+   *  around it — the shimmer fans +/-55 either side for its chromatic split. */
+  hue: number;
 }
 
+// `ring` is the selected-swatch outline: each one is its own gradientTo — the
+// darker half of the swatch — converted to OKLCH and lifted by L +0.18 with
+// chroma and hue held. Because only lightness moves, every ring reads as the
+// same step lighter than the colour it belongs to, which a per-colour hex pick
+// would not guarantee.
+// Eye colour per scheme, hue-matched to the body rather than mapped in list
+// order: cyan reads as the neutral partner for gray, and yellow sits nearest
+// orange. Same lightness and chroma across all five, so no one eye colour
+// carries more visual weight than another.
 export const COLORS: ColorScheme[] = [
-  { key: 'gray', bg: '#333333', gradientFrom: '#B7B6B7', gradientTo: '#515151', borderFrom: '#C1BEC1', borderTo: '#3D3C3D' },
-  { key: 'blue', bg: '#1A2544', gradientFrom: '#7BA3E8', gradientTo: '#2E4B82', borderFrom: '#8FB5F0', borderTo: '#2A3D66' },
-  { key: 'green', bg: '#1A3326', gradientFrom: '#6ADB8A', gradientTo: '#2B6B45', borderFrom: '#7AEB9A', borderTo: '#1F4D33' },
-  { key: 'orange', bg: '#33251A', gradientFrom: '#E8B070', gradientTo: '#8B5530', borderFrom: '#F0C080', borderTo: '#6B4020' },
-  { key: 'purple', bg: '#261A33', gradientFrom: '#B07AE8', gradientTo: '#5B3088', borderFrom: '#C08AF0', borderTo: '#3D2066' },
+  { key: 'gray', bg: '#333333', gradientFrom: '#B7B6B7', gradientTo: '#515151', borderFrom: '#C1BEC1', borderTo: '#3D3C3D', ring: 'oklch(0.615 0 89.9)', eye: 'oklch(0.72 0.14 205)', hue: 205 },
+  { key: 'blue', bg: '#1A2544', gradientFrom: '#7BA3E8', gradientTo: '#2E4B82', borderFrom: '#8FB5F0', borderTo: '#2A3D66', ring: 'oklch(0.599 0.098 262)', eye: 'oklch(0.72 0.15 255)', hue: 255 },
+  { key: 'green', bg: '#1A3326', gradientFrom: '#6ADB8A', gradientTo: '#2B6B45', borderFrom: '#7AEB9A', borderTo: '#1F4D33', ring: 'oklch(0.655 0.09 154.7)', eye: 'oklch(0.72 0.14 155)', hue: 155 },
+  { key: 'orange', bg: '#33251A', gradientFrom: '#E8B070', gradientTo: '#8B5530', borderFrom: '#F0C080', borderTo: '#6B4020', ring: 'oklch(0.683 0.088 53.7)', eye: 'oklch(0.82 0.15 95)', hue: 95 },
+  { key: 'purple', bg: '#261A33', gradientFrom: '#B07AE8', gradientTo: '#5B3088', borderFrom: '#C08AF0', borderTo: '#3D2066', ring: 'oklch(0.59 0.142 303.1)', eye: 'oklch(0.72 0.15 283)', hue: 283 },
 ];
 
 // Static paths (40×40 viewBox)

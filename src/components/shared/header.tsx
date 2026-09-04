@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Logo, LogoText } from './svgs/icons';
 import routes from '@/lib/routes';
-import { AuthWrapper, CreateAccount, Login, SelectAvatar, Welcome } from './auth';
+import { AuthWrapper, CreateAccount, Login, SelectAvatar } from './auth';
 import { RenderIf } from './render-if';
 import { useAppContext } from '@/state/context';
 import { updateAuthModal } from '@/state/reducer';
@@ -91,11 +91,8 @@ export function Header() {
           >
             <DialogContent showCloseButton={false} className="app_auth_popover">
               <AuthWrapper>
-                <RenderIf condition={state.authModal.variant === 'welcome'}>
-                  <Welcome />
-                </RenderIf>
 
-                <RenderIf condition={state.authModal.variant === 'selectAvatar'}>
+                <RenderIf condition={state.authModal.variant === 'selectAvatar' || state.authModal.variant === 'welcome'}>
                   <SelectAvatar />
                 </RenderIf>
 
