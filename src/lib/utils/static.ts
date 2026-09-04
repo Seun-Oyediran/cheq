@@ -101,10 +101,9 @@ export const authModalVariants = {
   welcome: {
     // Taller than Select avatar. The avatar opens to 160 on this screen and the
     // identity block goes under it: at 402 the address line landed on top of
-    // the Done button with 43px of room for a 44px block, and the full wallet
-    // address wraps to a second line on top of that. The card grows as the
+    // the Done button with 43px of room for a 44px block. The card grows as the
     // avatar does, on the same spring, so the two read as one movement.
-    height: '464px',
+    height: '448px',
   },
 };
 

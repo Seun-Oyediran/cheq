@@ -113,12 +113,16 @@ export function AuthIdentity({ username }: { username: string }) {
   return (
     <div className="flex flex-col items-center gap-1 justify-center">
       <h2 className="text-sm font-medium text-[#F9F9F9]">{username || 'Anonymous'}</h2>
-      {/* Two lines, not one. A 42-character address overflows this 360px card
-          by 49px even at 11px, and the size that would fit it is ~9px — past
-          reading. Wrapping keeps every character on screen and selectable,
-          which is the whole point of showing it in full rather than truncated. */}
+      {/* The sizes here need `!`. `* { font-size: inherit }` in _reset.scss is
+          unlayered, and unlayered CSS beats a layered utility whatever the
+          specificity — so text-[12px] lost and this paragraph rendered at the
+          inherited 14px. That is why a 42-character address looked like it
+          could not fit on one line: at 14px it is 325px against the 286px this
+          row has, but at the 12px actually asked for it is 279px. Tracking a
+          hair tight is safe here — a hex string is read character by
+          character, not scanned as words. */}
       <div className="flex items-center gap-1.5 justify-center">
-        <p className="text-[12px] leading-[1.35] text-[#F9F9F980] text-center break-all max-w-[184px]">
+        <p className="text-[12px]! tracking-[-0.01em]! whitespace-nowrap text-[#F9F9F980]">
           {WALLET_ADDRESS}
         </p>
         <CopyButton address={WALLET_ADDRESS} />
