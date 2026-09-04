@@ -82,14 +82,14 @@ function CopyButton({ address }: { address: string }) {
         initial={false}
         {...face(!copied)}
       >
-        <Copy width={20} height={20} />
+        <Copy />
       </motion.span>
       <motion.span
         className="absolute inset-0 flex items-center justify-center"
         initial={false}
         {...face(copied)}
       >
-        <CopyDone width={20} height={20} />
+        <CopyDone />
       </motion.span>
     </motion.button>
   );
