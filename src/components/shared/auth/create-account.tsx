@@ -19,6 +19,8 @@ import {
   SLOT_ENTER_SPRING,
   AUTH_SUBMIT_DELAY_MS,
   SLOT_ENTER_SCALE,
+  CROSSFADE_S,
+  CROSSFADE_EASE,
 } from '@/lib/utils/static';
 
 // Same choreography as the modal's screen-to-screen transition: the outgoing
@@ -98,6 +100,109 @@ const BUTTON_SLOT_VARIANTS = {
     transition: { duration: EXIT_DURATION, ease: EASE_OUT, delay: EXIT_DELAY },
   },
 };
+
+const MESSAGE_ERROR_COLOR = '#F36C78';
+
+// The tail leaves downward and the replacement arrives from above, so the two
+// read as one continuous movement in one direction rather than a swap. Both
+// pass through a blur, which is what keeps two legible strings from sitting on
+// top of each other mid-hand-off.
+const TAIL_TRAVEL = 7;
+const TAIL_VARIANTS = {
+  enter: { opacity: 0, y: -TAIL_TRAVEL, filter: 'blur(4px)' },
+  open: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: {
+      y: { duration: CROSSFADE_S, ease: EASE_OUT, delay: EXIT_DELAY + CROSSFADE_S * 0.3 },
+      opacity: { duration: CROSSFADE_S, ease: CROSSFADE_EASE, delay: EXIT_DELAY + CROSSFADE_S * 0.3 },
+      filter: { duration: CROSSFADE_S, ease: CROSSFADE_EASE, delay: EXIT_DELAY + CROSSFADE_S * 0.3 },
+    },
+  },
+  collapsed: {
+    opacity: 0,
+    y: TAIL_TRAVEL,
+    filter: 'blur(4px)',
+    transition: {
+      y: { duration: CROSSFADE_S, ease: EASE_OUT, delay: EXIT_DELAY },
+      opacity: { duration: CROSSFADE_S, ease: CROSSFADE_EASE, delay: EXIT_DELAY },
+      filter: { duration: CROSSFADE_S, ease: CROSSFADE_EASE, delay: EXIT_DELAY },
+    },
+  },
+};
+
+/**
+ * The messages, split at the words they share rather than diffed at runtime.
+ *
+ * Diffing looked right and was wrong: on the frame the message changes, the
+ * element leaving still holds the whole previous sentence — it was rendered
+ * before any prefix was known — so the shared words appear twice, once in the
+ * static prefix and once inside the fading copy. Declaring the split means both
+ * renders already agree on where the sentence divides, and the prefix is
+ * simply an element whose key never changed.
+ */
+const MESSAGES = {
+  idle: { prefix: 'This username', tail: 'is public and can be seen by others.' },
+  taken: { prefix: 'This username', tail: 'has been taken' },
+  empty: { prefix: '', tail: 'Please enter a username' },
+} as const;
+
+/**
+ * The message under the field. Whatever the outgoing and incoming lines share
+ * at the front stays put and only recolours; the rest is what animates.
+ *
+ * "This username" opens both the helper and the taken error, so on that change
+ * only "is public and can be seen by others." leaves and only "has been taken"
+ * arrives — the sentence corrects itself rather than being replaced. The prefix
+ * is animated too, on its own key, so the empty-field error (which shares
+ * nothing) still moves as a whole. It just never fires when the key holds.
+ */
+function InputMessage({ kind }: { kind: keyof typeof MESSAGES }) {
+  const { prefix, tail } = MESSAGES[kind];
+  const error = kind !== 'idle';
+
+  return (
+    <p
+      className="app_create_account__input__info"
+      style={{
+        color: error ? MESSAGE_ERROR_COLOR : undefined,
+        transition: `color ${CROSSFADE_S}s ${CROSSFADE_EASE}`,
+      }}
+    >
+      <span className="inline-flex overflow-hidden align-bottom">
+        <AnimatePresence initial={false} mode="popLayout">
+          {prefix ? (
+            <motion.span
+              key={prefix}
+              className="whitespace-pre"
+              initial="enter"
+              animate="open"
+              exit="collapsed"
+              variants={TAIL_VARIANTS}
+            >
+              {prefix}{' '}
+            </motion.span>
+          ) : null}
+        </AnimatePresence>
+      </span>
+      <span className="inline-flex overflow-hidden align-bottom">
+        <AnimatePresence initial={false} mode="popLayout">
+          <motion.span
+            key={tail}
+            className="whitespace-pre"
+            initial="enter"
+            animate="open"
+            exit="collapsed"
+            variants={TAIL_VARIANTS}
+          >
+            {tail}
+          </motion.span>
+        </AnimatePresence>
+      </span>
+    </p>
+  );
+}
 
 const TAKEN_USERNAMES = ['kurosawa', 'satoshi', 'vitalik', 'nakamoto', 'cheq'];
 
@@ -203,15 +308,7 @@ export function CreateAccount() {
               />
             </div>
           </div>
-          {showError ? (
-            <p className="app_create_account__input__info" style={{ color: '#F36C78' }}>
-              {showError === 'empty' ? 'Please enter a username' : 'This username has been taken'}
-            </p>
-          ) : (
-            <p className="app_create_account__input__info">
-              Your username is public and can be seen by others.
-            </p>
-          )}
+          <InputMessage kind={showError ?? 'idle'} />
         </div>
       </div>
 
