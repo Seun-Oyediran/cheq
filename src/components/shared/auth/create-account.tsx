@@ -204,6 +204,13 @@ function InputMessage({ kind }: { kind: keyof typeof MESSAGES }) {
   );
 }
 
+// How long the field waits after the last keystroke before it judges the name.
+// It was a full second, which is long enough that the verdict felt like it had
+// nothing to do with what was just typed. 380ms still clears a fast typist's
+// gaps — the check does not fire per character — while landing close enough to
+// the last key that the two read as connected.
+const VALIDATE_DEBOUNCE_MS = 380;
+
 const TAKEN_USERNAMES = ['kurosawa', 'satoshi', 'vitalik', 'nakamoto', 'cheq'];
 
 function useInputValidation(value: string): InputState {
@@ -220,7 +227,7 @@ function useInputValidation(value: string): InputState {
     timeoutRef.current = setTimeout(() => {
       const taken = TAKEN_USERNAMES.includes(value.trim().toLowerCase());
       setState(taken ? 'error' : 'done');
-    }, 1000);
+    }, VALIDATE_DEBOUNCE_MS);
     return () => {
       clearTimeout(timeoutRef.current);
     };
