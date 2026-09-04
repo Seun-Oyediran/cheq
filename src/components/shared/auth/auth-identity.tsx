@@ -123,7 +123,7 @@ export function AuthIdentity({ username }: { username: string }) {
           specificity, so this renders at the inherited 14px, exactly as it did
           before. Adding `!` would make it the 13px it says. */}
       <div className="flex items-center gap-1">
-        <p className="text-[13px] text-[#F9F9F980]">
+        <p className="text-[13px] font-medium text-[#F9F9F980]">
           {`${WALLET_ADDRESS.slice(0, 4)}...${WALLET_ADDRESS.slice(-4)}`}
         </p>
         <CopyButton address={WALLET_ADDRESS} />
@@ -144,7 +144,7 @@ export function AuthInvite({ username }: { username: string }) {
     <div className="flex flex-col items-center gap-1 justify-center">
       <h2 className="text-sm font-medium text-[#F9F9F9]">Invite friends</h2>
       <div className="flex items-center gap-1">
-        <p className="text-[13px] text-[#F9F9F980]">{link}</p>
+        <p className="text-[13px] font-medium text-[#F9F9F980]">{link}</p>
         <CopyButton address={`https://${link}`} />
       </div>
     </div>
