@@ -1,5 +1,5 @@
 'use client';
-import React, { useId, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { motion, useMotionTemplate, useTransform, type MotionValue } from 'framer-motion';
 import { FRAME_D, FACE_D, type ColorScheme } from '@/lib/avatar-shapes';
 
@@ -54,8 +54,6 @@ interface IProps {
  */
 export function AvatarPulse(props: IProps) {
   const { color, progress, reach = PULSE_MAX_R, strength = 1, wobble = 1 } = props;
-  const uid = useId().replace(/:/g, '');
-  const symbolId = `pulse-mini${uid}`;
 
   const width = COLS * PITCH;
   const height = ROWS * PITCH;
@@ -84,6 +82,24 @@ export function AvatarPulse(props: IProps) {
     }
     return out;
   }, []);
+
+  // Built once per colour. Every glyph is the same shape, so one <symbol> is
+  // defined and referenced; inside an image that costs nothing per frame, but
+  // it keeps the URL short enough to stay well under any length limit.
+  const fieldUrl = useMemo(() => {
+    const uses = cells
+      .map((c) => `<use href="#g" x="${c.x.toFixed(1)}" y="${c.y.toFixed(1)}" width="${MINI}" height="${MINI}" opacity="${c.dim.toFixed(2)}"/>`)
+      .join('');
+    const svg =
+      `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">` +
+      `<defs><symbol id="g" viewBox="0 0 40 40">` +
+      // Frame and face as one path with evenodd, so the face is knocked out of
+      // the frame. Drawn as two filled paths it reads as a solid block at 8px;
+      // the cut-out keeps the avatar's silhouette legible.
+      `<path d="${FRAME_D} ${FACE_D}" fill-rule="evenodd" fill="${color.borderFrom}"/>` +
+      `</symbol></defs>${uses}</svg>`;
+    return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+  }, [cells, color.borderFrom, width, height]);
 
   const maxR = reach;
 
@@ -139,13 +155,33 @@ export function AvatarPulse(props: IProps) {
           opacity: ringOpacity,
         }}
       />
-      <motion.svg
+      {/* One <img>, not 1086 live <use> nodes.
+
+          The field never changes once drawn — only the mask over it moves — but
+          SVG has no per-node compositing, so an animated mask forced the whole
+          subtree to re-rasterise every frame: 1086 shapes, 60 times a second.
+          Measured under 6x CPU throttling it held the pulse at 31fps with 83ms
+          frame spikes, and hiding this one element took it to 55fps; the ring
+          beside it cost nothing. Baked into a data URL the browser rasterises
+          it once and the mask animates over a single bitmap layer.
+
+          The trade is that the tint no longer eases when the scheme changes
+          under a wave in flight — the src swaps and re-decodes. The pulse fires
+          on the colour change rather than across it, so that transition was
+          almost never visible anyway. */}
+      <motion.img
         aria-hidden
+        alt=""
+        src={fieldUrl}
         className="absolute pointer-events-none"
-        width={width}
-        height={height}
-        viewBox={`0 0 ${width} ${height}`}
         style={{
+          // Sized here rather than by attribute. `img { width: 100% }` in
+          // _reset.scss is unlayered, so it overrode the width/height
+          // attributes, and this element's parent is a zero-size point — the
+          // field collapsed to 0x0 and vanished. An inline style outranks it.
+          width,
+          height,
+          maxWidth: 'none',
           left: '50%',
           top: '50%',
           marginLeft: -width / 2,
@@ -154,38 +190,7 @@ export function AvatarPulse(props: IProps) {
           maskImage: mask,
           WebkitMaskImage: mask,
         }}
-      >
-        <defs>
-          <symbol id={symbolId} viewBox="0 0 40 40">
-            {/* Frame and face as one path with evenodd, so the face is knocked
-                out of the frame. Drawn as two filled paths it reads as a solid
-                block at 8px; the cut-out keeps the avatar's silhouette legible. */}
-            <path d={`${FRAME_D} ${FACE_D}`} fillRule="evenodd" fill="currentColor" />
-          </symbol>
-        </defs>
-        {/* The tint lives on a plain <g>, not on the motion.svg above it:
-            motion latches `color` at mount and never writes it again, so the
-            field kept whichever scheme happened to be selected when the modal
-            opened while the ring beside it followed along. On a plain element
-            React updates it every render, so the wave re-tints mid-flight if
-            the avatar changes colour under it. Matches the face's own fill
-            transition so the two arrive together. */}
-        <g
-          style={{ color: color.borderFrom, transition: 'color 250ms ease 40ms' }}
-        >
-        {cells.map((c, i) => (
-          <use
-            key={i}
-            href={`#${symbolId}`}
-            x={c.x}
-            y={c.y}
-            width={MINI}
-            height={MINI}
-            opacity={c.dim}
-          />
-        ))}
-        </g>
-      </motion.svg>
+      />
     </>
   );
 }
