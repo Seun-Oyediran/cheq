@@ -18,13 +18,12 @@
     background-color: #1e1e1e;
   }
   // Elevation instead of a border — the shadow follows the squircle, a ring
-  // would have traced a circular corner around it.
+  // would have traced a circular corner around it. The first layer is a
+  // spread-only hairline doing the border's job; the two below it are the lift.
   box-shadow:
-    // No offset, so this layer wraps every edge including the top.
-    0 0 20px oklch(0 0 0 / 0.07),
-    0 1px 2px oklch(0 0 0 / 0.04),
-    0 8px 24px -6px oklch(0 0 0 / 0.1),
-    0 24px 48px -12px oklch(0 0 0 / 0.12);
+    0px 0px 0px 1px rgba(0, 0, 0, 0.06),
+    0px 1px 2px -1px rgba(0, 0, 0, 0.06),
+    0px 2px 4px 0px rgba(0, 0, 0, 0.04);
 }
 
 // Primary CTA shared by the auth screens. Same squircle as the login CTA and
