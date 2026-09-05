@@ -1,7 +1,6 @@
 'use client';
 import React, { type ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
-import { Agentation } from 'agentation';
 import { Layout } from './layout';
 
 /**
@@ -20,10 +19,14 @@ export function Chrome({ children }: { children: ReactNode }) {
   return (
     <>
       <Layout>{children}</Layout>
-      {process.env.NODE_ENV === 'development' && <Agentation endpoint="http://localhost:4747" />}
-      {/* Mesurer is off. The package is still installed and the client
-          boundary it needs is still at shared/mesurer-overlay — to bring it
-          back, render <MesurerOverlay /> here alongside Agentation. */}
+      {/* Both dev overlays are off. Agentation's launcher sits bottom-right and
+          was showing up in screen recordings of the real site, where BARE_ROUTES
+          does not apply. Mesurer is off too.
+
+          To bring either back, render it here behind the NODE_ENV check:
+            <Agentation endpoint="http://localhost:4747" />
+            <MesurerOverlay />
+          Annotations stop being collected while Agentation is not mounted. */}
     </>
   );
 }
