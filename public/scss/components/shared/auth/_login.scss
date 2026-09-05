@@ -80,10 +80,14 @@
       // alpha, which on the lighter accent fell to 1.47:1 against the fill.
       color: oklch(1 0 0);
       box-shadow: 0px 0.5px 0px 1px oklch(0 0 0 / 0.04);
-      transition: background-color 0.15s ease-in-out;
 
+      // No hover state. Both sources have to be answered: the accent-hover
+      // background this used to set, and `button:hover { opacity: .8 }` in
+      // _reset.scss, which would otherwise still dim the whole button — icon,
+      // label and all — on its own.
       &:hover {
-        background: var(--auth-accent-hover);
+        background: var(--auth-accent);
+        opacity: 1;
       }
     }
 
