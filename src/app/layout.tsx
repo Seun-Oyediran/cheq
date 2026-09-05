@@ -3,9 +3,7 @@ import './globals.css';
 import '../../public/scss/main.scss';
 import localFont from 'next/font/local';
 import Provider from '@/state/provider';
-import { Layout } from '@/components/shared/layout';
-import { Agentation } from 'agentation';
-import { MesurerOverlay } from '@/components/shared/mesurer-overlay';
+import { Chrome } from '@/components/shared/layout/chrome';
 import { SquircleNoScript } from '@squircle-js/react';
 
 export const metadata: Metadata = {
@@ -41,15 +39,7 @@ export default function RootLayout({
       </head>
       <Provider>
         <body>
-          <Layout>{children}</Layout>
-          {process.env.NODE_ENV === 'development' && (
-            <>
-              <Agentation endpoint="http://localhost:4747" />
-              {/* Overlay inspector. Dev only — it mounts a full-page overlay, so
-                  it must never reach a build. */}
-              <MesurerOverlay />
-            </>
-          )}
+          <Chrome>{children}</Chrome>
         </body>
       </Provider>
     </html>
