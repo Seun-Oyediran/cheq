@@ -3,7 +3,6 @@ import React, { type ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import { Agentation } from 'agentation';
 import { Layout } from './layout';
-import { MesurerOverlay } from '../mesurer-overlay';
 
 /**
  * Routes that render bare: no header, no modal backdrop, and none of the dev
@@ -21,14 +20,10 @@ export function Chrome({ children }: { children: ReactNode }) {
   return (
     <>
       <Layout>{children}</Layout>
-      {process.env.NODE_ENV === 'development' && (
-        <>
-          <Agentation endpoint="http://localhost:4747" />
-          {/* Overlay inspector. Dev only — it mounts a full-page overlay, so
-              it must never reach a build. */}
-          <MesurerOverlay />
-        </>
-      )}
+      {process.env.NODE_ENV === 'development' && <Agentation endpoint="http://localhost:4747" />}
+      {/* Mesurer is off. The package is still installed and the client
+          boundary it needs is still at shared/mesurer-overlay — to bring it
+          back, render <MesurerOverlay /> here alongside Agentation. */}
     </>
   );
 }
